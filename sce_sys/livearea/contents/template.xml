@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<livearea style="a1" format-ver="01.00" content-rev="1">
+<livearea style="psmobile" format-ver="01.00" content-rev="1">
 	<livearea-background>
 		<image>bg.png</image>
 	</livearea-background>
@@ -12,7 +12,7 @@
 	<frame id="frame3">
 		<liveitem>
 			<target>psla:-config</target>
-			<background valign="bottom" align="center">config.png</background>
+			<image align="center" origin="frame" valign="center" width="72" height="72">config.png</image>
 		</liveitem>
 	</frame>
 	
