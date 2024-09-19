@@ -78,6 +78,7 @@ target_link_libraries(companion
   mathneon
   taihen_stub
   SceAppMgr_stub
+  SceAppUtil_stub
   SceAudio_stub
   SceCtrl_stub
   SceCommonDialog_stub
