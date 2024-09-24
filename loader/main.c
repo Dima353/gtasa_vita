@@ -789,6 +789,18 @@ void patch_game(void) {
   // ChooseDJBanterIndexFromList
   hook_addr((uintptr_t)gtasa_mod.text_base + 0x003A44D6 + 0x1, (uintptr_t)gtasa_mod.text_base + 0x003A4562 + 0x1);
 
+  // Fix Second Siren
+  const uint16_t nopInstruction = 0xBF00;
+  const uint32_t patchInstruction = 0x8000F3AF;
+  uintptr_t firstPatchAddress = gtasa_mod.text_base + 0x00590133 + 0x1;
+  uintptr_t secondPatchAddress = gtasa_mod.text_base + 0x00590168;
+
+  // Add 2 NOP instructions
+  for (size_t i = 0; i < 2; ++i) {
+    kuKernelCpuUnrestrictedMemcpy((void*)(firstPatchAddress + (i * sizeof(uint16_t))), &nopInstruction, sizeof(nopInstruction));
+    kuKernelCpuUnrestrictedMemcpy((void*)(secondPatchAddress), &patchInstruction, sizeof(patchInstruction));
+  }
+
   if (config.fix_heli_plane_camera) {
     // Dummy all FindPlayerVehicle calls so the right analog stick can be used as camera again
     uint32_t movs_r0_0 = 0xBF002000;
