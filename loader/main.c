@@ -963,6 +963,18 @@ void patch_game(void) {
   lastSaveForResume = (void *)so_symbol(&gtasa_mod, "lastSaveForResume");
   hook_addr(so_symbol(&gtasa_mod, "_ZN14MainMenuScreen9HasCPSaveEv"), (uintptr_t)MainMenuScreen__HasCPSave);
 
+  // Always show wanted stars even if we're not breakin the law
+  hook_addr((uintptr_t)gtasa_mod.text_base + 0x2BDF82 + 0x1, (uintptr_t)gtasa_mod.text_base + 0x2BDFA4 + 0x1);
+  
+  // RE3: Make cars and peds to not despawn when you look away
+  // Vehicles
+   hook_addr((uintptr_t)gtasa_mod.text_base + 0x2EC660 + 0x1, (uintptr_t)gtasa_mod.text_base + 0x2EC6D6 + 0x1);
+  // Peds   
+   hook_addr((uintptr_t)gtasa_mod.text_base + 0x4CE4EA + 0x1, (uintptr_t)gtasa_mod.text_base + 0x4CE55C + 0x1);
+   
+   // Fix the issue that player cannot kill with a knife if not crouching
+  hook_addr((uintptr_t)gtasa_mod.text_base + 0x537988 + 0x1, (uintptr_t)gtasa_mod.text_base + 0x538BBE + 0x1);
+
   // support graceful exit
   SaveGameForPause = (void *)so_symbol(&gtasa_mod, "_Z16SaveGameForPause10eSaveTypesPc");
   hook_addr(so_symbol(&gtasa_mod, "_ZN14MainMenuScreen6OnExitEv"), (uintptr_t)MainMenuScreen__OnExit);
