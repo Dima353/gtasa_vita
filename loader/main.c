@@ -801,6 +801,15 @@ void patch_game(void) {
     kuKernelCpuUnrestrictedMemcpy((void*)(secondPatchAddress), &patchInstruction, sizeof(patchInstruction));
   }
 
+  // Show muzzle flash for the last bullet in magazine 
+  const uint16_t nop = 0xbf00;
+  uintptr_t destinationAddress = gtasa_mod.text_base + 0x4DDCCA;
+
+  // Add 10 NOP instructions
+  for (int i = 0; i < 10; ++i) {
+    kuKernelCpuUnrestrictedMemcpy((void *)(destinationAddress + (i * sizeof(uint16_t))), &nop, sizeof(nop));
+  }
+
   if (config.fix_heli_plane_camera) {
     // Dummy all FindPlayerVehicle calls so the right analog stick can be used as camera again
     uint32_t movs_r0_0 = 0xBF002000;
@@ -986,6 +995,26 @@ void patch_game(void) {
    
    // Fix the issue that player cannot kill with a knife if not crouching
   hook_addr((uintptr_t)gtasa_mod.text_base + 0x537988 + 0x1, (uintptr_t)gtasa_mod.text_base + 0x538BBE + 0x1);
+
+  // RE3: Road reflections
+  uint32_t nop18 = 0xbf00982F;
+  kuKernelCpuUnrestrictedMemcpy((void *)(gtasa_mod.text_base + 0x005A2E9C), &nop18, sizeof(nop18)); 
+
+  // Fixes Corona sprites stretching at foggy weather
+  uint32_t nop19 = 0x0A44EEB0;
+  kuKernelCpuUnrestrictedMemcpy((void *)(gtasa_mod.text_base + 0x005A27EC), &nop19, sizeof(nop19));
+
+  // Fix airbubbles from the jaw (CJ is breathing with his ass, lololololol) 
+  uint64_t nop20 = 0x0238F8D00B8CEDD0;
+  kuKernelCpuUnrestrictedMemcpy((void *)(gtasa_mod.text_base + 0x53C4A0), &nop20, sizeof(nop20));
+
+  // Fix Reflection's quality
+  uint32_t nop21 = 0x6480F44F;
+  kuKernelCpuUnrestrictedMemcpy((void *)(gtasa_mod.text_base + 0x5C49E6), &nop21, sizeof(nop21));
+
+  // Fixes some stupid issues that are caused my WarDrum's dirty hands 
+  uint32_t nop22 = 0x0A49EEB0;
+  kuKernelCpuUnrestrictedMemcpy((void *)(gtasa_mod.text_base + 0x3F60EA), &nop22, sizeof(nop22));
 
   // support graceful exit
   SaveGameForPause = (void *)so_symbol(&gtasa_mod, "_Z16SaveGameForPause10eSaveTypesPc");
