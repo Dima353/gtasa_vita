@@ -1016,6 +1016,9 @@ void patch_game(void) {
   uint32_t nop22 = 0x0A49EEB0;
   kuKernelCpuUnrestrictedMemcpy((void *)(gtasa_mod.text_base + 0x3F60EA), &nop22, sizeof(nop22));
 
+  // Dont kill peds when jacking their car, monster!
+  hook_addr((uintptr_t)gtasa_mod.text_base + 0x4F5FC4 + 0x1, (uintptr_t)gtasa_mod.text_base + 0x4F5FD6 + 0x1);
+
   // support graceful exit
   SaveGameForPause = (void *)so_symbol(&gtasa_mod, "_Z16SaveGameForPause10eSaveTypesPc");
   hook_addr(so_symbol(&gtasa_mod, "_ZN14MainMenuScreen6OnExitEv"), (uintptr_t)MainMenuScreen__OnExit);
