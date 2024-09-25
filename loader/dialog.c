@@ -14,6 +14,7 @@
 
 #include "main.h"
 #include "dialog.h"
+#include <string.h>
 
 static uint16_t ime_title_utf16[SCE_IME_DIALOG_MAX_TITLE_LENGTH];
 static uint16_t ime_initial_text_utf16[SCE_IME_DIALOG_MAX_TEXT_LENGTH];
