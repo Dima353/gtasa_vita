@@ -350,7 +350,7 @@ bool ped_spec = false;
 bool mobile_stuff = false;
 bool show_wanted_stars = true;
 bool road_reflections = true;
-bool car_fov_effects = true;
+bool car_fov_effects = false;
 
 bool fuzzy_seek = false;
 bool enable_mvp_optimization = false;
@@ -385,7 +385,7 @@ void loadConfig(void) {
       else if (strcmp("ignore_mobile_stuff", buffer) == 0) mobile_stuff = value ? false : true;
       else if (strcmp("show_wanted_stars", buffer) == 0) show_wanted_stars = (bool)value;
       else if (strcmp("road_reflections", buffer) == 0) road_reflections = (bool)value;	
-      else if (strcmp("car_fov_effects", buffer) == 0) car_fov_effects = (bool)value;	  
+      else if (strcmp("car_fov_effects", buffer) == 0) car_fov_effects = value ? false : true;	  
 
       else if (strcmp("enable_fuzzy_seek", buffer) == 0) fuzzy_seek = (bool)value;
       else if (strcmp("enable_mvp_optimization", buffer) == 0) enable_mvp_optimization = (bool)value;
@@ -418,7 +418,7 @@ void saveConfig(void) {
     fprintf(config, "%s %d\n", "ignore_mobile_stuff", mobile_stuff ? false : true);
     fprintf(config, "%s %d\n", "show_wanted_stars", (int)show_wanted_stars);
     fprintf(config, "%s %d\n", "road_reflections", (int)road_reflections);
-    fprintf(config, "%s %d\n", "car_fov_effects", (int)car_fov_effects);	
+    fprintf(config, "%s %d\n", "car_fov_effects", (int)car_fov_effects ? false : true);	
 
     fprintf(config, "%s %d\n", "enable_fuzzy_seek", (int)fuzzy_seek);
     fprintf(config, "%s %d\n", "enable_mvp_optimization", (int)enable_mvp_optimization);
@@ -495,8 +495,8 @@ char *options_descs[] = {
   "Makes hardware accelerated skinning properly work. Fixes broken animations especially noticeable in facial animations.\nThe default value is: Enabled.", // fix_skin_weights
   "When enabled, peds will have specular lighting reflections applied to their models.\nThe default value is: Disabled.", // disable_ped_spec
   "When enabled, Mobile build widgets and windows will be shown (eg. App rating window, cutscene skip widgets, etc...)\nThe default value is: Disabled.", // ignore_mobile_stuff
-  "Enables current wanted level star display during all times in gameplay",// show_wanted_stars
-  "Enables road reflections during wet weather types",// road_reflections
+  "Enables current wanted level star display during all times in gameplay\nThe default value is: Enabled.",// show_wanted_stars
+  "Enables road reflections during wet weather types\nThe default value is: Enabled.",// road_reflections
   "Disables Expanded FOV effect triggered when driving a vehicle \nThe default value is: Disabled.",// car_fov_effects  
 
   "When enabled, MP3 audio loading may be faster but less accurate.\nThe default value is: Disabled.", // enable_fuzzy_seek
