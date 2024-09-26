@@ -191,6 +191,9 @@ typedef struct {
   int fix_skin_weights;
   int disable_ped_spec;
   int ignore_mobile_stuff;
+  int show_wanted_stars;
+  int road_reflections;
+  int car_fov_effects;  
   int enable_fuzzy_seek;
   int enable_mvp_optimization;
   int enable_bones_optimization;

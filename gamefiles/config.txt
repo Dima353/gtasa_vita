@@ -12,6 +12,10 @@ disable_mipmaps 0
 fix_skin_weights 1
 disable_ped_spec 1
 ignore_mobile_stuff 1
+show_wanted_stars 0
+road_reflections 1
+car_fov_effects 0
 enable_fuzzy_seek 0
 enable_mvp_optimization 0
 enable_bones_optimization 0
+

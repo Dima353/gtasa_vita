@@ -348,6 +348,9 @@ bool mipmaps = true;
 bool fix_skin_weights = true;
 bool ped_spec = false;
 bool mobile_stuff = false;
+bool show_wanted_stars = true;
+bool road_reflections = true;
+bool car_fov_effects = true;
 
 bool fuzzy_seek = false;
 bool enable_mvp_optimization = false;
@@ -380,6 +383,9 @@ void loadConfig(void) {
       else if (strcmp("fix_skin_weights", buffer) == 0) fix_skin_weights = (bool)value;
       else if (strcmp("disable_ped_spec", buffer) == 0) ped_spec = value ? false : true;
       else if (strcmp("ignore_mobile_stuff", buffer) == 0) mobile_stuff = value ? false : true;
+      else if (strcmp("show_wanted_stars", buffer) == 0) show_wanted_stars = (bool)value;
+      else if (strcmp("road_reflections", buffer) == 0) road_reflections = (bool)value;	
+      else if (strcmp("car_fov_effects", buffer) == 0) car_fov_effects = (bool)value;	  
 
       else if (strcmp("enable_fuzzy_seek", buffer) == 0) fuzzy_seek = (bool)value;
       else if (strcmp("enable_mvp_optimization", buffer) == 0) enable_mvp_optimization = (bool)value;
@@ -410,6 +416,9 @@ void saveConfig(void) {
     fprintf(config, "%s %d\n", "fix_skin_weights", (int)fix_skin_weights);
     fprintf(config, "%s %d\n", "disable_ped_spec", ped_spec ? false : true);
     fprintf(config, "%s %d\n", "ignore_mobile_stuff", mobile_stuff ? false : true);
+    fprintf(config, "%s %d\n", "show_wanted_stars", (int)show_wanted_stars);
+    fprintf(config, "%s %d\n", "road_reflections", (int)road_reflections);
+    fprintf(config, "%s %d\n", "car_fov_effects", (int)car_fov_effects);	
 
     fprintf(config, "%s %d\n", "enable_fuzzy_seek", (int)fuzzy_seek);
     fprintf(config, "%s %d\n", "enable_mvp_optimization", (int)enable_mvp_optimization);
@@ -486,6 +495,9 @@ char *options_descs[] = {
   "Makes hardware accelerated skinning properly work. Fixes broken animations especially noticeable in facial animations.\nThe default value is: Enabled.", // fix_skin_weights
   "When enabled, peds will have specular lighting reflections applied to their models.\nThe default value is: Disabled.", // disable_ped_spec
   "When enabled, Mobile build widgets and windows will be shown (eg. App rating window, cutscene skip widgets, etc...)\nThe default value is: Disabled.", // ignore_mobile_stuff
+  "Enables current wanted level star display during all times in gameplay",// show_wanted_stars
+  "Enables road reflections during wet weather types",// road_reflections
+  "Disables Expanded FOV effect triggered when driving a vehicle \nThe default value is: Disabled.",// car_fov_effects  
 
   "When enabled, MP3 audio loading may be faster but less accurate.\nThe default value is: Disabled.", // enable_fuzzy_seek
   "Moves MVP calculation from GPU to CPU. May improve performances.\nThe default value is: Disabled.", // enable_mvp_optimization
@@ -510,6 +522,9 @@ enum {
   OPT_SKINNING_FIX,
   OPT_PED_SPEC,
   OPT_MOBILE_STUFF,
+  OPT_WANTED_STARS,
+  OPT_ROAD_REFLECTIONS,
+  OPT_CAR_FOV_EFFECTS,  
 
   OPT_FUZZY_SEEK,
   OPT_MVP_OPT,
@@ -581,7 +596,7 @@ int main(int argc, char *argv[]) {
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 0.0f));
     ImGui::Text("PS2 Shading:"); ImGui::SameLine();
     ImGui::Checkbox("##check2", &skygfx_ps2_shading);
-    SetDescription(OPT_PS2_SHADING);
+    SetDescription(OPT_PS2_SHADING); ImGui::SameLine();
     ImGui::Text("PS2 Corona Sun:"); ImGui::SameLine();
     ImGui::Checkbox("##check3", &skygfx_ps2_sun);
     SetDescription(OPT_PS2_SUN);
@@ -636,16 +651,26 @@ int main(int argc, char *argv[]) {
     SetDescription(OPT_PED_SPEC);
     ImGui::Text("Mobile Widgets:"); ImGui::SameLine();
     ImGui::Checkbox("##check11", &mobile_stuff);
-    SetDescription(OPT_MOBILE_STUFF);
+    SetDescription(OPT_MOBILE_STUFF);	
+    ImGui::Text("Show Wanted Stars:"); ImGui::SameLine();	
+    ImGui::Checkbox("##check17", &show_wanted_stars);
+    SetDescription(OPT_WANTED_STARS);
+    ImGui::Text("Road Reflections:"); ImGui::SameLine();	
+    ImGui::Checkbox("##check18", &road_reflections);
+    SetDescription(OPT_ROAD_REFLECTIONS);
+    ImGui::Text("Disable In-Vehicle FOV effect:"); ImGui::SameLine();	
+    ImGui::Checkbox("##check19", &car_fov_effects);
+    SetDescription(OPT_CAR_FOV_EFFECTS);	
+
     ImGui::Separator();
 
     ImGui::TextColored(ImVec4(255, 255, 0, 255), "Optimizations");
     ImGui::Text("MP3 Fuzzy Seek:"); ImGui::SameLine();
     ImGui::Checkbox("##check16", &fuzzy_seek);
-    SetDescription(OPT_FUZZY_SEEK);
+    SetDescription(OPT_FUZZY_SEEK); ImGui::SameLine();
     ImGui::Text("MVP Optimization:"); ImGui::SameLine();
     ImGui::Checkbox("##check12", &enable_mvp_optimization);
-    SetDescription(OPT_MVP_OPT);
+    SetDescription(OPT_MVP_OPT); ImGui::SameLine();
     ImGui::Text("Bones Optimization:"); ImGui::SameLine();
     ImGui::Checkbox("##check13", &enable_bones_optimization);
     SetDescription(OPT_BONES_OPT);

@@ -809,6 +809,18 @@ void patch_game(void) {
   for (int i = 0; i < 10; ++i) {
     kuKernelCpuUnrestrictedMemcpy((void *)(destinationAddress + (i * sizeof(uint16_t))), &nop, sizeof(nop));
   }
+  
+  //An ability to remove FOV-effect while driving a car
+  if(config.car_fov_effects){  
+    const uint16_t nop23 = 0xBF00;
+    uintptr_t PlaseNOP = gtasa_mod.text_base + 0x3C07E6 + 0x1;
+    uintptr_t PlaseNOP2 = gtasa_mod.text_base + 0x3C082C + 0x1;
+
+    for (size_t i = 0; i < 2; ++i) {
+      kuKernelCpuUnrestrictedMemcpy((void*)(PlaseNOP), &nop23, sizeof(nop23));
+      kuKernelCpuUnrestrictedMemcpy((void*)(PlaseNOP2), &nop23, sizeof(nop23));
+    }
+  }
 
   if (config.fix_heli_plane_camera) {
     // Dummy all FindPlayerVehicle calls so the right analog stick can be used as camera again
@@ -985,7 +997,9 @@ void patch_game(void) {
   hook_addr(so_symbol(&gtasa_mod, "_ZN14MainMenuScreen9HasCPSaveEv"), (uintptr_t)MainMenuScreen__HasCPSave);
 
   // Always show wanted stars even if we're not breakin the law
+  if(config.show_wanted_stars){
   hook_addr((uintptr_t)gtasa_mod.text_base + 0x2BDF82 + 0x1, (uintptr_t)gtasa_mod.text_base + 0x2BDFA4 + 0x1);
+  }
   
   // RE3: Make cars and peds to not despawn when you look away
   // Vehicles
@@ -997,8 +1011,10 @@ void patch_game(void) {
   hook_addr((uintptr_t)gtasa_mod.text_base + 0x537988 + 0x1, (uintptr_t)gtasa_mod.text_base + 0x538BBE + 0x1);
 
   // RE3: Road reflections
+  if(config.road_reflections){  
   uint32_t nop18 = 0xbf00982F;
-  kuKernelCpuUnrestrictedMemcpy((void *)(gtasa_mod.text_base + 0x005A2E9C), &nop18, sizeof(nop18)); 
+  kuKernelCpuUnrestrictedMemcpy((void *)(gtasa_mod.text_base + 0x005A2E9C), &nop18, sizeof(nop18));
+  }
 
   // Fixes Corona sprites stretching at foggy weather
   uint32_t nop19 = 0x0A44EEB0;
