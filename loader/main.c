@@ -822,6 +822,17 @@ void patch_game(void) {
     }
   }
 
+  // Country. Rifle. Is. 3rd. Person.
+  const uint16_t nop24 = 0xBF00;
+  const uint32_t patch = 0xFF;
+  uintptr_t firstPatch = gtasa_mod.text_base + 0x5378C0;
+  uintptr_t secondPatch = gtasa_mod.text_base + 0x53813C;
+  
+  for (size_t i = 0; i < 3; ++i) {
+    kuKernelCpuUnrestrictedMemcpy((void*)(firstPatch + (i * sizeof(uint16_t))), &nop24, sizeof(nop24));
+    kuKernelCpuUnrestrictedMemcpy((void*)(secondPatch), &patch, sizeof(patch));
+  }  
+
   if (config.fix_heli_plane_camera) {
     // Dummy all FindPlayerVehicle calls so the right analog stick can be used as camera again
     uint32_t movs_r0_0 = 0xBF002000;
@@ -1009,6 +1020,10 @@ void patch_game(void) {
    
    // Fix the issue that player cannot kill with a knife if not crouching
   hook_addr((uintptr_t)gtasa_mod.text_base + 0x537988 + 0x1, (uintptr_t)gtasa_mod.text_base + 0x538BBE + 0x1);
+
+  // Fix stealable items sucking
+  uint32_t nop17 = 0x0A00EEB7;
+  kuKernelCpuUnrestrictedMemcpy((void *)(gtasa_mod.text_base + 0x40B162), &nop17, sizeof(nop17));
 
   // RE3: Road reflections
   if(config.road_reflections){  
