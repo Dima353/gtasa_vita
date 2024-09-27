@@ -350,7 +350,7 @@ bool ped_spec = false;
 bool mobile_stuff = false;
 bool show_wanted_stars = true;
 bool road_reflections = true;
-bool car_fov_effects = false;
+bool car_fov_effects = true;
 
 bool fuzzy_seek = false;
 bool enable_mvp_optimization = false;
@@ -385,7 +385,7 @@ void loadConfig(void) {
       else if (strcmp("ignore_mobile_stuff", buffer) == 0) mobile_stuff = value ? false : true;
       else if (strcmp("show_wanted_stars", buffer) == 0) show_wanted_stars = (bool)value;
       else if (strcmp("road_reflections", buffer) == 0) road_reflections = (bool)value;	
-      else if (strcmp("car_fov_effects", buffer) == 0) car_fov_effects = value ? false : true;	  
+      else if (strcmp("car_fov_effects", buffer) == 0) car_fov_effects = (bool)value;	  
 
       else if (strcmp("enable_fuzzy_seek", buffer) == 0) fuzzy_seek = (bool)value;
       else if (strcmp("enable_mvp_optimization", buffer) == 0) enable_mvp_optimization = (bool)value;
@@ -418,7 +418,7 @@ void saveConfig(void) {
     fprintf(config, "%s %d\n", "ignore_mobile_stuff", mobile_stuff ? false : true);
     fprintf(config, "%s %d\n", "show_wanted_stars", (int)show_wanted_stars);
     fprintf(config, "%s %d\n", "road_reflections", (int)road_reflections);
-    fprintf(config, "%s %d\n", "car_fov_effects", (int)car_fov_effects ? false : true);	
+    fprintf(config, "%s %d\n", "car_fov_effects", (int)car_fov_effects);
 
     fprintf(config, "%s %d\n", "enable_fuzzy_seek", (int)fuzzy_seek);
     fprintf(config, "%s %d\n", "enable_mvp_optimization", (int)enable_mvp_optimization);
@@ -562,25 +562,33 @@ int main(int argc, char *argv[]) {
 
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 0.0f));
 
-    ImGui::TextColored(ImVec4(255, 255, 0, 255), "Inputs");
+    ImGui::SetCursorPos({8, 8});
+    ImGui::TextColored(ImVec4(255, 255, 0, 255), "Inputs");	
+    ImGui::SetCursorPos({8, 25});	
     ImGui::Text("Touchpanels Deadzone:"); ImGui::SameLine();
     ImGui::SliderInt("##touch_x_margin", &touch_x_margin, 0, 256);
-    SetDescription(OPT_DEADZONE);
+    SetDescription(OPT_DEADZONE);	
+    ImGui::SetCursorPos({8, 51});	
     ImGui::Text("Front Touchpad L2/R2:"); ImGui::SameLine();
     ImGui::Checkbox("##check14", &front_touch_triggers);
     SetDescription(OPT_FRONT_TOUCH_TRIGGERS);
-    ImGui::Text("Flying Vehicles Camera Fix:"); ImGui::SameLine();
+    ImGui::SetCursorPos({265, 74});	
+    ImGui::Text("Flying Control Fix:"); ImGui::SameLine();
     ImGui::Checkbox("##check1", &fix_heli_plane_camera);
     SetDescription(OPT_FLYING_VEHICLES_FIX);
-    ImGui::PopStyleVar();
-    if (ImGui::Button("Configure Controls")) {
+    ImGui::PopStyleVar();	
+    ImGui::SetCursorPos({8, 70});		
+    if (ImGui::Button("Config Controls")) {
       show_controls_window = !show_controls_window;
       if (show_controls_window) loadButtons();
     }
+    ImGui::SetCursorPos({0, 100});	
     ImGui::Separator();
 
-    ImGui::TextColored(ImVec4(255, 255, 0, 255), "Skygfx");
-    ImGui::Text("PostFX Colour Filter:"); ImGui::SameLine();
+    ImGui::SetCursorPos({8, 107});
+    ImGui::TextColored(ImVec4(255, 255, 0, 255), "SkyGfx");	
+    ImGui::SetCursorPos({8, 124});	
+    ImGui::Text("Colour Filter:"); ImGui::SameLine();
     if (ImGui::BeginCombo("##combo", SkyGfxColorFilterName[skygfx_colorfilter])) {
       for (int n = 0; n < SKYGFX_COLOR_FILTER_NUM; n++) {
         bool is_selected = skygfx_colorfilter == n;
@@ -594,16 +602,22 @@ int main(int argc, char *argv[]) {
     }
     SetDescription(OPT_COLOR_FILTER);
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 0.0f));
+    ImGui::SetCursorPos({8, 150});
     ImGui::Text("PS2 Shading:"); ImGui::SameLine();
     ImGui::Checkbox("##check2", &skygfx_ps2_shading);
-    SetDescription(OPT_PS2_SHADING); ImGui::SameLine();
+    SetDescription(OPT_PS2_SHADING);
+    ImGui::SetCursorPos({265, 150});	
     ImGui::Text("PS2 Corona Sun:"); ImGui::SameLine();
     ImGui::Checkbox("##check3", &skygfx_ps2_sun);
     SetDescription(OPT_PS2_SUN);
-    ImGui::Separator();
     ImGui::PopStyleVar();
+	
+    ImGui::SetCursorPos({0, 175});	
+    ImGui::Separator();
 
-    ImGui::TextColored(ImVec4(255, 255, 0, 255), "Graphics");
+    ImGui::SetCursorPos({8, 182});
+    ImGui::TextColored(ImVec4(255, 255, 0, 255), "Graphics");	
+    ImGui::SetCursorPos({8, 199});	
     ImGui::Text("Resolution:"); ImGui::SameLine();
     if (ImGui::BeginCombo("##combor", ResolutionName[resolution])) {
       for (int n = 0; n < RESOLUTION_NUM; n++) {
@@ -616,7 +630,8 @@ int main(int argc, char *argv[]) {
       }
       ImGui::EndCombo();
     }
-    SetDescription(OPT_RESOLUTION);
+    SetDescription(OPT_RESOLUTION);	
+    ImGui::SetCursorPos({8, 221});	
     ImGui::Text("Anti-Aliasing:"); ImGui::SameLine();
     if (ImGui::BeginCombo("##combo2", AntiAliasingName[aa_mode])) {
       for (int n = 0; n < ANTI_ALIASING_NUM; n++) {
@@ -630,64 +645,82 @@ int main(int argc, char *argv[]) {
       ImGui::EndCombo();
     }
     SetDescription(OPT_ANTIALIASING);
-    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 0.0f));
-    ImGui::Text("High Detail Player Textures:"); ImGui::SameLine();
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 0.0f));	
+    ImGui::SetCursorPos({265, 248});	
+    ImGui::Text("Detail Player Textures:"); ImGui::SameLine();
     ImGui::Checkbox("##check15", &high_detail_player);
-    SetDescription(OPT_HI_DETAIL_PLAYER);
+    SetDescription(OPT_HI_DETAIL_PLAYER);	
+    ImGui::SetCursorPos({8, 248});	
     ImGui::Text("Detail Textures:"); ImGui::SameLine();
     ImGui::Checkbox("##check4", &detail_textures);
-    SetDescription(OPT_DETAIL_TEX);
+    SetDescription(OPT_DETAIL_TEX);	
+    ImGui::SetCursorPos({265, 268});	
     ImGui::Text("Texture Bias:"); ImGui::SameLine();
     ImGui::Checkbox("##check5", &tex_bias);
-    SetDescription(OPT_TEX_BIAS);
+    SetDescription(OPT_TEX_BIAS);	
+    ImGui::SetCursorPos({8, 268});	
     ImGui::Text("Mipmaps:"); ImGui::SameLine();
     ImGui::Checkbox("##check6", &mipmaps);
-    SetDescription(OPT_MIPMAPS);
+    SetDescription(OPT_MIPMAPS);	
+    ImGui::SetCursorPos({265, 328});	
     ImGui::Text("Skinning Fix:"); ImGui::SameLine();
     ImGui::Checkbox("##check7", &fix_skin_weights);
-    SetDescription(OPT_SKINNING_FIX);
+    SetDescription(OPT_SKINNING_FIX);	
+    ImGui::SetCursorPos({265, 288});	
     ImGui::Text("Peds Reflections:"); ImGui::SameLine();
     ImGui::Checkbox("##check8", &ped_spec);
-    SetDescription(OPT_PED_SPEC);
+    SetDescription(OPT_PED_SPEC);	
+    ImGui::SetCursorPos({265, 308});	
     ImGui::Text("Mobile Widgets:"); ImGui::SameLine();
     ImGui::Checkbox("##check11", &mobile_stuff);
-    SetDescription(OPT_MOBILE_STUFF);	
+    SetDescription(OPT_MOBILE_STUFF);
+    ImGui::SetCursorPos({8, 308});
     ImGui::Text("Show Wanted Stars:"); ImGui::SameLine();	
     ImGui::Checkbox("##check17", &show_wanted_stars);
-    SetDescription(OPT_WANTED_STARS);
+    SetDescription(OPT_WANTED_STARS);	
+    ImGui::SetCursorPos({8, 288});	
     ImGui::Text("Road Reflections:"); ImGui::SameLine();	
     ImGui::Checkbox("##check18", &road_reflections);
-    SetDescription(OPT_ROAD_REFLECTIONS);
+    SetDescription(OPT_ROAD_REFLECTIONS);	
+    ImGui::SetCursorPos({8, 328});	
     ImGui::Text("Disable In-Vehicle FOV effect:"); ImGui::SameLine();	
     ImGui::Checkbox("##check19", &car_fov_effects);
-    SetDescription(OPT_CAR_FOV_EFFECTS);	
+    SetDescription(OPT_CAR_FOV_EFFECTS);
 
+    ImGui::SetCursorPos({0, 353});
     ImGui::Separator();
 
-    ImGui::TextColored(ImVec4(255, 255, 0, 255), "Optimizations");
+    ImGui::SetCursorPos({8, 360});
+    ImGui::TextColored(ImVec4(255, 255, 0, 255), "Optimizations");	
+    ImGui::SetCursorPos({8, 417});	
     ImGui::Text("MP3 Fuzzy Seek:"); ImGui::SameLine();
     ImGui::Checkbox("##check16", &fuzzy_seek);
-    SetDescription(OPT_FUZZY_SEEK); ImGui::SameLine();
+    SetDescription(OPT_FUZZY_SEEK); ImGui::SameLine();	
+    ImGui::SetCursorPos({8, 377});	
     ImGui::Text("MVP Optimization:"); ImGui::SameLine();
     ImGui::Checkbox("##check12", &enable_mvp_optimization);
-    SetDescription(OPT_MVP_OPT); ImGui::SameLine();
+    SetDescription(OPT_MVP_OPT); ImGui::SameLine();	
+    ImGui::SetCursorPos({8, 397});	
     ImGui::Text("Bones Optimization:"); ImGui::SameLine();
     ImGui::Checkbox("##check13", &enable_bones_optimization);
     SetDescription(OPT_BONES_OPT);
-    ImGui::PopStyleVar();
+    ImGui::PopStyleVar();	
+    ImGui::SetCursorPos({0, 442});	
     ImGui::Separator();
 
+    ImGui::SetCursorPos({8, 452});
     if (ImGui::Button("Save and Exit"))
       exit_code = 0;
     ImGui::SameLine();
-    if (ImGui::Button("Save and Launch the game"))
+    if (ImGui::Button("Save and Launch"))
       exit_code = 1;
     ImGui::SameLine();
-    if (ImGui::Button("Discard and Exit"))
+    if (ImGui::Button("Cancel and Exit"))
       exit_code = 2;
     ImGui::SameLine();
-    if (ImGui::Button("Discard and Launch the game"))
+    if (ImGui::Button("Cancel and Launch"))
       exit_code = 3;
+    ImGui::SetCursorPos({0, 480});  
     ImGui::Separator();
 
     if (desc) {

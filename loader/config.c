@@ -34,6 +34,9 @@ int read_config(const char *file) {
   config.fix_skin_weights = 1;
   config.disable_ped_spec = 1;
   config.ignore_mobile_stuff = 1;
+  config.show_wanted_stars = 1;
+  config.car_fov_effects = 0;
+  config.road_reflections = 1;  
   config.enable_fuzzy_seek = 0;
   config.enable_mvp_optimization = 0;
   config.enable_bones_optimization = 0;
