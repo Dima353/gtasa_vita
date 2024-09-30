@@ -15,6 +15,31 @@ By doing so, it's basically as if we emulate a minimalist Android environment in
 
 ## Changelog
 
+### v2.5
+
+- Rebuild companion:
+  -  Added some custom patches
+  -  Added background. Thanks to Once13One
+- Added a custom patches: based on [JPatch](https://github.com/AndroidModLoader/JPatch)
+  - re3: Road reflections (in Configurator App)
+  - Always drawable wanted stars (in Configurator App)
+  - An ability to remove FOV-effect while driving a car (in Configurator App)
+  - CJ magnetting to stealable objects only when very close
+  - Fix Second Siren for emergency vehicles
+  - re3: Make cars and peds to not despawn when you look away
+  - Stealth kill with a knife does NOT require to be crouched anymore
+  - Show muzzle flash for the last bullet
+  - Wide coronas/sprites fix
+  - Fixed breathing underwater (bubbles)
+  - Reflections are now bigger in quality
+  - Peds don't die when stealing a car
+  - Aiming with Country Rifle is now in 3rd person
+- Returned fix emergency vehicles (fixed sniper scope)
+- Use vitaGL's shader cache by TheOfficialFloW
+- Fix for CJ's classic shadow by Ardetis
+- Remap control (PS3 style)
+- Update LiveArea. Added manual. Thanks to Once13One
+
 ### v2.1
 
 - Changed some button actions to on press (e.g. jump).
@@ -149,9 +174,6 @@ You can launch the Configurator app by clicking on the `Configuration` button lo
 
 ### Performance
 
-- In order to reduce occasional stutters in-game, delete both `ux0:data/gtasa/scache_small_low.txt` and `ux0:data/gtasa/scache_small.txt`, then create a copy of the `ux0:data/gtasa/scache.txt` file to have two version of it. (for example `scache(1).txt` so in the end you end up with both `scache.txt` and `scache(1).txt` inside the `ux0:data/gtasa/` folder), then rename `scache.txt` to `scache_small.txt` and `scache(1).txt` to `scache_small_low.txt` . This will however make the loading screen longer since it needs to compile more shaders ahead.
-  - If the folder `ux0:data/gtasa/cache` contains much more than 300 files, it's recommended to delete the folder and have it rebuilt.
-
 - In order to save storage on your Memory Card, you can safely delete all files in sub-folders of `ux0:data/gtasa/texdb` which end with:
   - `.dxt.dat`, `.dxt.tmb`, `dxt.toc`
   - `.etc.dat`, `.etc.tmb`, `etc.toc`
@@ -234,3 +256,4 @@ cmake .. && make
 - psykana for patching the scripts and making various improvements to the port.
 - XirXes and shadowknight for the audio conversion script.
 - JonathanERC and gtagmodding for the Cheat List.
+- Once13One for design LiveArea and Configurator app
