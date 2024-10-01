@@ -810,7 +810,7 @@ void patch_game(void) {
     kuKernelCpuUnrestrictedMemcpy((void *)(destinationAddress + (i * sizeof(uint16_t))), &nop, sizeof(nop));
   }
   
-  //An ability to remove FOV-effect while driving a car
+  // An ability to remove FOV-effect while driving a car
   if(config.car_fov_effects){  
     const uint16_t nop23 = 0xBF00;
     uintptr_t PlaseNOP = gtasa_mod.text_base + 0x3C07E6 + 0x1;
@@ -822,7 +822,7 @@ void patch_game(void) {
     }
   }
 
-  // Country. Rifle. Is. 3rd. Person.
+  // Aiming with Country Rifle is now in 3rd person
   const uint16_t nop24 = 0xBF00;
   const uint32_t patch = 0xFF;
   uintptr_t firstPatch = gtasa_mod.text_base + 0x5378C0;
@@ -1007,48 +1007,53 @@ void patch_game(void) {
   lastSaveForResume = (void *)so_symbol(&gtasa_mod, "lastSaveForResume");
   hook_addr(so_symbol(&gtasa_mod, "_ZN14MainMenuScreen9HasCPSaveEv"), (uintptr_t)MainMenuScreen__HasCPSave);
 
-  // Always show wanted stars even if we're not breakin the law
+  // Always drawable wanted stars
   if(config.show_wanted_stars){
   hook_addr((uintptr_t)gtasa_mod.text_base + 0x2BDF82 + 0x1, (uintptr_t)gtasa_mod.text_base + 0x2BDFA4 + 0x1);
   }
   
-  // RE3: Make cars and peds to not despawn when you look away
-  // Vehicles
+  // re3: Make cars and peds to not despawn when you look away
+    // Vehicles
    hook_addr((uintptr_t)gtasa_mod.text_base + 0x2EC660 + 0x1, (uintptr_t)gtasa_mod.text_base + 0x2EC6D6 + 0x1);
-  // Peds   
+    // Peds   
    hook_addr((uintptr_t)gtasa_mod.text_base + 0x4CE4EA + 0x1, (uintptr_t)gtasa_mod.text_base + 0x4CE55C + 0x1);
    
-   // Fix the issue that player cannot kill with a knife if not crouching
+   // Stealth kill with a knife does NOT require to be crouched anymore
   hook_addr((uintptr_t)gtasa_mod.text_base + 0x537988 + 0x1, (uintptr_t)gtasa_mod.text_base + 0x538BBE + 0x1);
 
-  // Fix stealable items sucking
+  // CJ magnetting to stealable objects only when very close
   uint32_t nop17 = 0x0A00EEB7;
   kuKernelCpuUnrestrictedMemcpy((void *)(gtasa_mod.text_base + 0x40B162), &nop17, sizeof(nop17));
 
-  // RE3: Road reflections
+  // re3: Road reflections
   if(config.road_reflections){  
   uint32_t nop18 = 0xbf00982F;
   kuKernelCpuUnrestrictedMemcpy((void *)(gtasa_mod.text_base + 0x005A2E9C), &nop18, sizeof(nop18));
   }
 
-  // Fixes Corona sprites stretching at foggy weather
+  // Fixed coronas stretching while the weather is foggy
   uint32_t nop19 = 0x0A44EEB0;
   kuKernelCpuUnrestrictedMemcpy((void *)(gtasa_mod.text_base + 0x005A27EC), &nop19, sizeof(nop19));
 
-  // Fix airbubbles from the jaw (CJ is breathing with his ass, lololololol) 
+  // Fixed breathing underwater (bubbles)
   uint64_t nop20 = 0x0238F8D00B8CEDD0;
   kuKernelCpuUnrestrictedMemcpy((void *)(gtasa_mod.text_base + 0x53C4A0), &nop20, sizeof(nop20));
 
-  // Fix Reflection's quality
+  // Reflections are now bigger in quality
   uint32_t nop21 = 0x6480F44F;
   kuKernelCpuUnrestrictedMemcpy((void *)(gtasa_mod.text_base + 0x5C49E6), &nop21, sizeof(nop21));
 
-  // Fixes some stupid issues that are caused my WarDrum's dirty hands 
-  uint32_t nop22 = 0x0A49EEB0;
-  kuKernelCpuUnrestrictedMemcpy((void *)(gtasa_mod.text_base + 0x3F60EA), &nop22, sizeof(nop22));
-
   // Dont kill peds when jacking their car, monster!
   hook_addr((uintptr_t)gtasa_mod.text_base + 0x4F5FC4 + 0x1, (uintptr_t)gtasa_mod.text_base + 0x4F5FD6 + 0x1);
+  
+  //Sprinting on any surface is allowed
+  hook_addr(so_symbol(&gtasa_mod, "_ZN14SurfaceInfos_c12CantSprintOnEj"), (uintptr_t)ret0);
+
+  //Radar streaming should be fixed
+  hook_addr((uintptr_t)gtasa_mod.text_base + 0x44313A + 0x1, (uintptr_t)gtasa_mod.text_base + 0x443146 + 0x1);
+  
+  //Remove "ExtraAirResistance" flag 
+  hook_addr(so_symbol(&gtasa_mod, "_ZN10CCullZones29DoExtraAirResistanceForPlayerEv"), (uintptr_t)ret0); 
 
   // support graceful exit
   SaveGameForPause = (void *)so_symbol(&gtasa_mod, "_Z16SaveGameForPause10eSaveTypesPc");

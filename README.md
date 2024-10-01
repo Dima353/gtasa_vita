@@ -34,6 +34,9 @@ By doing so, it's basically as if we emulate a minimalist Android environment in
   - Reflections are now bigger in quality
   - Peds don't die when stealing a car
   - Aiming with Country Rifle is now in 3rd person
+  - Sprinting on any surface is allowed
+  - Radar streaming should be fixed
+  - Remove "ExtraAirResistance" flag
 - Returned fix emergency vehicles (fixed sniper scope)
 - Use vitaGL's shader cache by TheOfficialFloW
 - Fix for CJ's classic shadow by Ardetis
