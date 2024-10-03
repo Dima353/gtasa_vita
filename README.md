@@ -42,6 +42,7 @@ By doing so, it's basically as if we emulate a minimalist Android environment in
 - Fix for CJ's classic shadow by Ardetis
 - Remap control (PS3 style)
 - Update LiveArea. Added manual. Thanks to Once13One
+- Add free aim option by PoisonPoisonPoison
 
 ### v2.1
 
