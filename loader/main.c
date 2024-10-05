@@ -1018,9 +1018,6 @@ void patch_game(void) {
     // Peds   
    hook_addr((uintptr_t)gtasa_mod.text_base + 0x4CE4EA + 0x1, (uintptr_t)gtasa_mod.text_base + 0x4CE55C + 0x1);
    
-   // Stealth kill with a knife does NOT require to be crouched anymore
-  hook_addr((uintptr_t)gtasa_mod.text_base + 0x537988 + 0x1, (uintptr_t)gtasa_mod.text_base + 0x538BBE + 0x1);
-
   // CJ magnetting to stealable objects only when very close
   uint32_t nop17 = 0x0A00EEB7;
   kuKernelCpuUnrestrictedMemcpy((void *)(gtasa_mod.text_base + 0x40B162), &nop17, sizeof(nop17));

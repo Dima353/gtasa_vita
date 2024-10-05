@@ -127,6 +127,7 @@ vita_create_vpk(GTASA.vpk ${VITA_TITLEID} eboot.bin
        ${CMAKE_SOURCE_DIR}/sce_sys/manual/023.png sce_sys/manual/023.png
        ${CMAKE_SOURCE_DIR}/sce_sys/manual/024.png sce_sys/manual/024.png
        ${CMAKE_SOURCE_DIR}/companion/centurygothic.ttf centurygothic.ttf
+       ${CMAKE_SOURCE_DIR}/companion/pricedown.ttf pricedown.ttf
        ${CMAKE_SOURCE_DIR}/companion/configuration_app.png configuration_app.png
        ${CMAKE_BINARY_DIR}/companion.bin companion.bin
 )

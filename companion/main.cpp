@@ -567,6 +567,45 @@ ImTextureID loadTex(const char* fname) {
     return reinterpret_cast<ImTextureID>(image_texture);
 }
 
+ImVec2 FloorImVec2(const ImVec2& vec) {
+    return ImVec2(std::floor(vec.x), std::floor(vec.y));
+}
+
+bool CustomTextButton(const char* label, ImVec4 normalColor, ImVec4 hoverColor, const char* unique_id) {
+    std::string full_label = std::string(label) + "###" + unique_id;
+    
+    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0, 0, 0, 0));
+    
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0, 0, 0, 0));
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0, 0, 0, 0));
+    ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0, 0, 0, 0));
+	ImGui::PushStyleColor(ImGuiCol_NavHighlight, ImVec4(ImColor(0, 0, 0, 0)));
+    
+    bool pressed = ImGui::Button(full_label.c_str());
+    
+    ImGui::PopStyleColor(6);
+    
+    bool isFocused = ImGui::IsItemFocused();
+    
+    ImVec2 pos = ImGui::GetItemRectMin();
+    ImVec2 size = ImGui::GetItemRectSize();
+    
+    ImVec2 window_pos = ImGui::GetWindowPos();
+    
+    ImVec2 raw_text_pos = ImVec2(
+        window_pos.x + pos.x + 5.0f,
+        window_pos.y + pos.y + (size.y - ImGui::GetFontSize()) * 0.5f
+    );
+    ImVec2 text_pos = FloorImVec2(raw_text_pos);
+    
+    ImDrawList* draw_list = ImGui::GetWindowDrawList();
+    ImColor text_color = isFocused ? ImColor(hoverColor) : ImColor(normalColor);
+    draw_list->AddText(text_pos, text_color, label);
+    
+    return pressed;
+}
+
 int main(int argc, char *argv[]) {
   loadConfig();
   int exit_code = 0xDEAD;
@@ -586,12 +625,13 @@ int main(int argc, char *argv[]) {
   
   ImFont* FontSm;
   ImFont* FontLg;
-
+  ImFont* FontSa;
 
 
   ImGuiIO& io = ImGui::GetIO();
   FontSm = ImGui::GetIO().Fonts->AddFontFromFileTTF("centurygothic.ttf", 16, nullptr, io.Fonts->GetGlyphRangesCyrillic());
   FontLg = ImGui::GetIO().Fonts->AddFontFromFileTTF("centurygothic.ttf", 18, nullptr, io.Fonts->GetGlyphRangesCyrillic());
+  FontSa = ImGui::GetIO().Fonts->AddFontFromFileTTF("pricedown.ttf", 24, nullptr, io.Fonts->GetGlyphRangesCyrillic());
 
   while (exit_code == 0xDEAD) {
     desc = nullptr;
@@ -603,29 +643,32 @@ int main(int argc, char *argv[]) {
 
     ImDrawList* idl = ImGui::GetWindowDrawList();
     idl->AddImage(bg, {0,0}, {960,544});
-	
+
     ImGui::PushFont(FontLg);	
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 0.0f));
     ImGui::SetCursorPos({136, 60});	
     ImGui::Text("Touchpanels Deadzone:"); ImGui::SameLine();
     ImGui::PushItemWidth(494);
     ImGui::SliderInt("##touch_x_margin", &touch_x_margin, 0, 256);
-    SetDescription(OPT_DEADZONE);	
+    SetDescription(OPT_DEADZONE);
+
     ImGui::SetCursorPos({391, 91});	
     ImGui::Text("Front Touchpad L2/R2:"); ImGui::SameLine();
-    ImGui::Checkbox("##check14", &front_touch_triggers);
+    ImGui::Checkbox("##check14", &front_touch_triggers);	
     SetDescription(OPT_FRONT_TOUCH_TRIGGERS);
+
     ImGui::SetCursorPos({663, 91});	
     ImGui::Text("Flying Control Fix:"); ImGui::SameLine();
     ImGui::Checkbox("##check1", &fix_heli_plane_camera);
     SetDescription(OPT_FLYING_VEHICLES_FIX);
     ImGui::PopStyleVar();	
+
     ImGui::SetCursorPos({136, 88});		
     if (ImGui::Button("Configure Controls")) {
       show_controls_window = !show_controls_window;
       if (show_controls_window) loadButtons();
     }
-	
+
     ImGui::SetCursorPos({136, 153});	
     ImGui::Text("Colour Filter:"); ImGui::SameLine();
     ImGui::PushItemWidth(100);
@@ -641,17 +684,19 @@ int main(int argc, char *argv[]) {
       ImGui::EndCombo();
     }
     SetDescription(OPT_COLOR_FILTER);
+
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 0.0f));
     ImGui::SetCursorPos({391, 156});
     ImGui::Text("PS2 Shading:"); ImGui::SameLine();
     ImGui::Checkbox("##check2", &skygfx_ps2_shading);
     SetDescription(OPT_PS2_SHADING);
+
     ImGui::SetCursorPos({663, 156});	
     ImGui::Text("PS2 Corona Sun:"); ImGui::SameLine();
     ImGui::Checkbox("##check3", &skygfx_ps2_sun);
     SetDescription(OPT_PS2_SUN);
     ImGui::PopStyleVar();
-	
+
     ImGui::SetCursorPos({136, 220});	
     ImGui::Text("Resolution:"); ImGui::SameLine();
     if (ImGui::BeginCombo("##combor", ResolutionName[resolution])) {
@@ -666,6 +711,7 @@ int main(int argc, char *argv[]) {
       ImGui::EndCombo();
     }
     SetDescription(OPT_RESOLUTION);	
+
     ImGui::SetCursorPos({391, 220});	
     ImGui::Text("Anti-Aliasing:"); ImGui::SameLine();
     if (ImGui::BeginCombo("##combo2", AntiAliasingName[aa_mode])) {
@@ -680,76 +726,99 @@ int main(int argc, char *argv[]) {
       ImGui::EndCombo();
     }
     SetDescription(OPT_ANTIALIASING);
+
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 0.0f));	
     ImGui::SetCursorPos({391, 254});	
     ImGui::Text("Detail Player Textures:"); ImGui::SameLine();
     ImGui::Checkbox("##check15", &high_detail_player);
-    SetDescription(OPT_HI_DETAIL_PLAYER);	
+    SetDescription(OPT_HI_DETAIL_PLAYER);
+
     ImGui::SetCursorPos({136, 254});	
     ImGui::Text("Detail Textures:"); ImGui::SameLine();
     ImGui::Checkbox("##check4", &detail_textures);
     SetDescription(OPT_DETAIL_TEX);	
+
     ImGui::SetCursorPos({663, 254});	
     ImGui::Text("Texture Bias:"); ImGui::SameLine();
     ImGui::Checkbox("##check5", &tex_bias);
-    SetDescription(OPT_TEX_BIAS);	
+    SetDescription(OPT_TEX_BIAS);
+
     ImGui::SetCursorPos({663, 223});	
     ImGui::Text("Mipmaps:"); ImGui::SameLine();
     ImGui::Checkbox("##check6", &mipmaps);
-    SetDescription(OPT_MIPMAPS);	
+    SetDescription(OPT_MIPMAPS);
+
     ImGui::SetCursorPos({663, 282});	
     ImGui::Text("Skinning Fix:"); ImGui::SameLine();
     ImGui::Checkbox("##check7", &fix_skin_weights);
-    SetDescription(OPT_SKINNING_FIX);	
+    SetDescription(OPT_SKINNING_FIX);
+
     ImGui::SetCursorPos({391, 282});	
     ImGui::Text("Peds Reflections:"); ImGui::SameLine();
     ImGui::Checkbox("##check8", &ped_spec);
     SetDescription(OPT_PED_SPEC);	
+
     ImGui::SetCursorPos({663, 310});	
     ImGui::Text("Mobile Widgets:"); ImGui::SameLine();
     ImGui::Checkbox("##check11", &mobile_stuff);
     SetDescription(OPT_MOBILE_STUFF);
+
     ImGui::SetCursorPos({391, 310});
     ImGui::Text("Show Wanted Stars:"); ImGui::SameLine();	
     ImGui::Checkbox("##check17", &show_wanted_stars);
-    SetDescription(OPT_WANTED_STARS);	
+    SetDescription(OPT_WANTED_STARS);
+
     ImGui::SetCursorPos({136, 282});	
     ImGui::Text("Road Reflections:"); ImGui::SameLine();	
     ImGui::Checkbox("##check18", &road_reflections);
-    SetDescription(OPT_ROAD_REFLECTIONS);	
+    SetDescription(OPT_ROAD_REFLECTIONS);
+
     ImGui::SetCursorPos({136, 310});	
     ImGui::Text("Disable In-Vehicle FOV:"); ImGui::SameLine();	
     ImGui::Checkbox("##check19", &car_fov_effects);
     SetDescription(OPT_CAR_FOV_EFFECTS);
-	
+
     ImGui::SetCursorPos({663, 374});	
     ImGui::Text("MP3 Fuzzy Seek:"); ImGui::SameLine();
     ImGui::Checkbox("##check16", &fuzzy_seek);
     SetDescription(OPT_FUZZY_SEEK); ImGui::SameLine();	
+
     ImGui::SetCursorPos({136, 374});	
     ImGui::Text("MVP Optimization:"); ImGui::SameLine();
     ImGui::Checkbox("##check12", &enable_mvp_optimization);
     SetDescription(OPT_MVP_OPT); ImGui::SameLine();	
+
     ImGui::SetCursorPos({391, 374});	
     ImGui::Text("Bones Optimization:"); ImGui::SameLine();
     ImGui::Checkbox("##check13", &enable_bones_optimization);
     SetDescription(OPT_BONES_OPT);
     ImGui::PopStyleVar();	
     ImGui::PopFont();
-	
-    ImGui::PushFont(FontLg);
-    ImGui::SetCursorPos({202, 412});
-    if (ImGui::Button("Save and Exit"))
-      exit_code = 0;
-    ImGui::SameLine();
-    if (ImGui::Button("Save and Launch"))
-      exit_code = 1;
-    ImGui::SameLine();
-    if (ImGui::Button("Cancel and Exit"))
-      exit_code = 2;
-    ImGui::SameLine();
-    if (ImGui::Button("Cancel and Launch"))
-      exit_code = 3;
+
+	ImGui::PushFont(FontSa);
+    ImVec4 normalColor = ImVec4(168.0f / 255.0f, 116.0f / 255.0f, 7.0f / 255.0f, 1.0f); // Цвет текста по умолчанию
+    ImVec4 hoverColor = ImVec4(1.0f, 1.0f, 1.0f, 1.0f); // Цвет текста при наведении
+
+    ImGui::SetCursorPos(ImVec2(164, 406));
+    if (CustomTextButton("save and exit", normalColor, hoverColor, "save_exit")) {
+        exit_code = 0;
+    }
+
+    ImGui::SetCursorPos(ImVec2(302, 406));
+    if (CustomTextButton("save and launch", normalColor, hoverColor, "save_launch")) {
+        exit_code = 1;
+    }
+
+    ImGui::SetCursorPos(ImVec2(463, 406));
+    if (CustomTextButton("cancel and exit", normalColor, hoverColor, "cancel_exit")) {
+        exit_code = 2;
+    }
+
+    ImGui::SetCursorPos(ImVec2(619, 406));
+    if (CustomTextButton("cancel and launch", normalColor, hoverColor, "cancel_launch")) {
+        exit_code = 3;
+    }
+
     ImGui::PopFont();
 
     if (desc) {

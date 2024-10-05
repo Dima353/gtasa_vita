@@ -27,7 +27,6 @@ By doing so, it's basically as if we emulate a minimalist Android environment in
   - CJ magnetting to stealable objects only when very close
   - Fix Second Siren for emergency vehicles
   - re3: Make cars and peds to not despawn when you look away
-  - Stealth kill with a knife does NOT require to be crouched anymore
   - Show muzzle flash for the last bullet
   - Wide coronas/sprites fix
   - Fixed breathing underwater (bubbles)
