@@ -580,7 +580,7 @@ bool CustomTextButton(const char* label, ImVec4 normalColor, ImVec4 hoverColor, 
     ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0, 0, 0, 0));
     ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0, 0, 0, 0));
     ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0, 0, 0, 0));
-	ImGui::PushStyleColor(ImGuiCol_NavHighlight, ImVec4(ImColor(0, 0, 0, 0)));
+    ImGui::PushStyleColor(ImGuiCol_NavHighlight, ImVec4(ImColor(0, 0, 0, 0)));
     
     bool pressed = ImGui::Button(full_label.c_str());
     
@@ -622,6 +622,10 @@ int main(int argc, char *argv[]) {
   ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
 
   ImGui::GetIO().MouseDrawCursor = false;
+  
+  ImGuiStyle& style = ImGui::GetStyle();
+  style.FrameRounding = 2.0f;
+  style.WindowBorderSize = 0.0f;
   
   ImFont* FontSm;
   ImFont* FontLg;
@@ -671,7 +675,7 @@ int main(int argc, char *argv[]) {
 
     ImGui::SetCursorPos({136, 153});	
     ImGui::Text("Colour Filter:"); ImGui::SameLine();
-    ImGui::PushItemWidth(100);
+    ImGui::PushItemWidth(89);
     if (ImGui::BeginCombo("##combo", SkyGfxColorFilterName[skygfx_colorfilter])) {
       for (int n = 0; n < SKYGFX_COLOR_FILTER_NUM; n++) {
         bool is_selected = skygfx_colorfilter == n;
@@ -684,6 +688,7 @@ int main(int argc, char *argv[]) {
       ImGui::EndCombo();
     }
     SetDescription(OPT_COLOR_FILTER);
+    ImGui::PopItemWidth();
 
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 0.0f));
     ImGui::SetCursorPos({391, 156});
@@ -699,6 +704,7 @@ int main(int argc, char *argv[]) {
 
     ImGui::SetCursorPos({136, 220});	
     ImGui::Text("Resolution:"); ImGui::SameLine();
+    ImGui::PushItemWidth(100);
     if (ImGui::BeginCombo("##combor", ResolutionName[resolution])) {
       for (int n = 0; n < RESOLUTION_NUM; n++) {
         bool is_selected = resolution == n;
@@ -711,9 +717,11 @@ int main(int argc, char *argv[]) {
       ImGui::EndCombo();
     }
     SetDescription(OPT_RESOLUTION);	
-
+    ImGui::PopItemWidth();
+	
     ImGui::SetCursorPos({391, 220});	
     ImGui::Text("Anti-Aliasing:"); ImGui::SameLine();
+    ImGui::PushItemWidth(100);
     if (ImGui::BeginCombo("##combo2", AntiAliasingName[aa_mode])) {
       for (int n = 0; n < ANTI_ALIASING_NUM; n++) {
         bool is_selected = aa_mode == n;
@@ -726,6 +734,7 @@ int main(int argc, char *argv[]) {
       ImGui::EndCombo();
     }
     SetDescription(OPT_ANTIALIASING);
+    ImGui::PopItemWidth();
 
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 0.0f));	
     ImGui::SetCursorPos({391, 254});	
@@ -795,29 +804,25 @@ int main(int argc, char *argv[]) {
     ImGui::PopStyleVar();	
     ImGui::PopFont();
 
-	ImGui::PushFont(FontSa);
-    ImVec4 normalColor = ImVec4(168.0f / 255.0f, 116.0f / 255.0f, 7.0f / 255.0f, 1.0f); // Цвет текста по умолчанию
-    ImVec4 hoverColor = ImVec4(1.0f, 1.0f, 1.0f, 1.0f); // Цвет текста при наведении
+    ImGui::PushFont(FontSa);
+    ImVec4 normalColor = ImVec4(168.0f / 255.0f, 116.0f / 255.0f, 7.0f / 255.0f, 1.0f);
+    ImVec4 hoverColor = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
     ImGui::SetCursorPos(ImVec2(164, 406));
-    if (CustomTextButton("save and exit", normalColor, hoverColor, "save_exit")) {
+    if (CustomTextButton("save and exit", normalColor, hoverColor, "save_exit"))
         exit_code = 0;
-    }
 
     ImGui::SetCursorPos(ImVec2(302, 406));
-    if (CustomTextButton("save and launch", normalColor, hoverColor, "save_launch")) {
+    if (CustomTextButton("save and launch", normalColor, hoverColor, "save_launch"))
         exit_code = 1;
-    }
 
     ImGui::SetCursorPos(ImVec2(463, 406));
-    if (CustomTextButton("cancel and exit", normalColor, hoverColor, "cancel_exit")) {
+    if (CustomTextButton("cancel and exit", normalColor, hoverColor, "cancel_exit"))
         exit_code = 2;
-    }
 
     ImGui::SetCursorPos(ImVec2(619, 406));
-    if (CustomTextButton("cancel and launch", normalColor, hoverColor, "cancel_launch")) {
+    if (CustomTextButton("cancel and launch", normalColor, hoverColor, "cancel_launch"))
         exit_code = 3;
-    }
 
     ImGui::PopFont();
 
