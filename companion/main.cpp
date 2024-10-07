@@ -34,7 +34,7 @@ enum SkyGfxColorFilter {
 
 char *SkyGfxColorFilterName[SKYGFX_COLOR_FILTER_NUM] = {
   "Mobile",
-  "None",
+  "Откл.",
   "PS2",
   "PC"
 };
@@ -48,14 +48,14 @@ const char *ResolutionName[RESOLUTION_NUM] = {
 
 #define ANTI_ALIASING_NUM 3
 char *AntiAliasingName[ANTI_ALIASING_NUM] = {
-  "Disabled",
+  "Откл.",
   "MSAA 2x",
   "MSAA 4x"
 };
 
 #define CONTROLS_NUM 21
 char *ControlsName[CONTROLS_NUM] = {
-  "Unused",
+  "Не используется",
   "Cross",
   "Circle",
   "Square",
@@ -68,14 +68,14 @@ char *ControlsName[CONTROLS_NUM] = {
   "R2",
   "Select",
   "Start",
-  "Up",
-  "Down",
-  "Left",
-  "Right",
-  "Analog Left (X Axis)",
-  "Analog Left (Y Axis)",
-  "Analog Right (X Axis)",
-  "Analog Right (Y Axis)"
+  "Вверх",
+  "Вниз",
+  "Влево",
+  "Вправо",
+  "Левый стик (Ось X)",
+  "Левый стик(Ось Y)",
+  "Правый стик (Ось X)",
+  "Правый стик (Ось Y)"
 };
 
 char *ControlsVar[CONTROLS_NUM] = {
@@ -104,116 +104,116 @@ char *ControlsVar[CONTROLS_NUM] = {
 
 #define CONTROLS_MAPPINGS_NUM 110
 char *ControlsMapName[CONTROLS_MAPPINGS_NUM] = {
-  "Attack:",
-  "Sprint:",
-  "Jump:",
-  "Crouch:",
-  "Enter Car:",
-  "Brake:",
-  "Handbrake:",
-  "Accelerate:",
-  "Camera Zoom In:",
-  "Camera Zoom Out:",
-  "Horn:",
-  "Previous Station (Radio):",
-  "Next Station (Radio):",
-  "Show Vital Stats:",
-  "Next Weapon:",
-  "Previous Weapon:",
-  "Radar:",
-  "Look Back (Walk):",
-  "Look Left (Vehicle):",
-  "Look Right (Vehicle):",
-  "Look Back (Vehicle):",
-  "Mission Start/Cancel:",
-  "Vigilante Start/Cancel:",
-  "Steer X:",
-  "Steer Y:",
-  "Steer Left:",
-  "Steer Right:",
-  "Look X:",
-  "Look Y:",
-  "Move X:",
-  "Move Y:",
-  "Auto Hydraulics:",
-  "Swap Weapon and Purchase:",
-  "Weapon Zoom In:",
-  "Weapon Zoom Out:",
-  "Enter/Exit Targeting:",
-  "Vehicle Bomb:",
-  "Turret Left:",
-  "Turret Right:",
-  "Magnet:",
-  "Skip Cutscene:",
-  "Gang Recruit:",
-  "Gang Ignore:",
-  "Gang Follow:",
-  "Gang Hold Position:",
-  "Rythm Up:",
-  "Rythm Down:",
-  "Rythm Left:",
-  "Rythm Right:",
-  "Drop Crane:",
-  "Drop Item:",
-  "Phone:",
-  "Nitro:",
-  "Crane Up:",
-  "Crane Down:",
-  "Accept:",
-  "Cancel:",
-  "Grab:",
-  "Stinger:",
-  "Menu Down:",
-  "Menu Up:",
-  "Menu Left:",
-  "Menu Right:",
-  "Menu Accept:",
-  "Menu Back:",
-  "Menu Map:",
-  "Arcade Button:",
-  "Arcade Power Off:",
-  "Arcade Reset:",
-  "Arcade Joystick:",
-  "Gym Action:",
-  "Gym Easier Level:",
-  "Gym Harder Level:",
-  "Blackjack Split:",
-  "Blackjack Double:",
-  "Blackjack Hit:",
-  "Blackjack Stand:",
-  "Place Bet:",
-  "Remove Bet:",
-  "Next Target:",
-  "Previous Target:",
-  "Waypoint Blip:",
-  "Helicopter Magnet Up:",
-  "Helicopter Magnet Down:",
-  "Lock Hydraulics:",
-  "Flight Ascend:",
-  "Flight Descend:",
-  "Flight Primary Attack:",
-  "Flight Secondary Attack:",
-  "Flight Left:",
-  "Flight Right:",
-  "Flight Up:",
-  "Flight Down:",
-  "Basketball Shoot:",
-  "Bunny Hop:",
-  "Map Zoom In:",
-  "Map Zoom Out:",
-  "Alt Attack:",
-  "Block:",
-  "Take Cover Left:",
-  "Take Cover Right:",
-  "Toggle Landing Gear:",
-  "Kiss:",
-  "Dancing Up:",
-  "Dancing Down:",
-  "Dancing Left:",
-  "Dancing Right:",
-  "Replay:",
-  "Taxi Boost Jump:",
-  "Enter Free Aim:"
+  "Атака",
+  "Бег",
+  "Прыжок",
+  "Присесть",
+  "Сесть в транспорт",
+  "Тормоз",
+  "Ручной тормоз",
+  "Ускорение",
+  "Изменить камеру: Приблизить",
+  "Изменить камеру: Отдалить",
+  "Гудок",
+  "Предыдщуая радиостанция",
+  "Следующая радиостанция",
+  "Показать статистику",
+  "Следующее оружие",
+  "Предыдущее оружие",
+  "Карта",
+  "Посмотреть назад (Пешком)",
+  "Посмотреть назад (Транспорт)",
+  "Взгляд вправо (Транспорт)",
+  "Взгляд влево (Транспорт)",
+  "Начать/Отменить миссию",
+  "Начать/Отменить побочное задание",
+  "Движение (Ось X)",
+  "Движение (Ось Y)",
+  "Движение влево",
+  "Движение вправо",
+  "Обзор (Ось X)",
+  "Обзор (Ось Y)",
+  "Идти (Ось X)",
+  "Идти (Ось Y)",
+  "Гидравлика",
+  "Сменить оружие в слоте",
+  "Прицеливание: Приблизить",
+  "Прицеливание: Отдалить",
+  "Прицеливание",
+  "Активировать бомбу (Транспорт)",
+  "Башня: Влево",
+  "Башня: Вправо",
+  "Магнит",
+  "Пропустить кат-сцену",
+  "Банда: Нанять",
+  "Банда: Игнорировать",
+  "Банда: Следовать",
+  "Банда: Удерживать позицию",
+  "Ритм: Вверх",
+  "Ритм: Вниз",
+  "Ритм: Влево",
+  "Ритм: Вправо",
+  "Кран: Опустить",
+  "Бросить предмет",
+  "Телефон",
+  "Нитро",
+  "Кран: Вверх",
+  "Кран: Вниз",
+  "Принять",
+  "Отменить",
+  "Взять",
+  "Стингер (вооружение)",
+  "Меню: Вниз",
+  "Меню: Вверх",
+  "Меню: Влево",
+  "Меню: Вправо",
+  "Меню: Принять",
+  "Меню: Назад",
+  "Меню: Карта",
+  "Игровой автомат: Кнопка",
+  "Игровой автомат: Выход",
+  "Игровой автомат: Сброс",
+  "Игровой автомат: Джойстик",
+  "Тренировка: Действие",
+  "Тренировка: Уровень ниже",
+  "Тренировка: Уровень выше",
+  "Блэкджек: Сплит",
+  "Блэкджек: Дабл",
+  "Блэкджек: Хит",
+  "Блэкджек: Стэнд",
+  "Сделать ставку",
+  "Отменить ставку",
+  "Следующая цель",
+  "Предыдущая цель",
+  "Карта: Метка",
+  "Вертолет: Магнит вверх",
+  "Вертолет: Магнит вниз",
+  "Гидравлика: Блокировка",
+  "Полет: Подъем",
+  "Полет: Снижение",
+  "Полет: Основная атака",
+  "Полет: Доп. атака",
+  "Полет: Влево",
+  "Полет: Вправо",
+  "Полет: Вверх",
+  "Полет: Вниз",
+  "Баскетбол: Бросок",
+  "Велосипед: Банни-хоп",
+  "Карта: Увеличить",
+  "Карта: Уменьшить",
+  "Альтернативная атака",
+  "Блок",
+  "Укрытие: Влево",
+  "Укрытие: Вправо",
+  "Самолет: Шасси",
+  "Поцелуй",
+  "Танец: Вверх",
+  "Танец: Вниз",
+  "Танец: Влево",
+  "Танец: Вправо",
+  "Повтор (запись)",
+  "Такси: Гидравлический прыжок",
+  "Свободный обзор"
 };
 
 char *ControlsMapVar[CONTROLS_MAPPINGS_NUM] = {
@@ -481,30 +481,35 @@ void saveButtons(void) {
 }
 
 char *options_descs[] = {
-  "Deadzone in pixels to use between inputs on both rearpad and touchscreen.\nThe default value is: 100.", // touch_x_margin
-  "When enabled, L2/R2 will be mapped to the top of the front touchpad instead of the rear.\nThe default value is: Disabled.", // front_touch_triggers
-  "Makes it possible to move the camera with the right stick when using a flying vehicle (Planes and helicopters).\nThe default value is: Enabled.", // fix_heli_plane_camera
+  "Мертвая зона для сенсорного экрана и задней панели. Задается в пикселях.\nПо умолчанию: 100.", // touch_x_margin
+  "Перенос клавиш L2/R2 с задней панели на сенсорный экран.\nПо умолчанию: Отключено.", // front_touch_triggers
+  "Позволяет использовать правый стик для обзора во время полета на самолетах и вертолетах.\nПо умолчанию: Включено.", // fix_heli_plane_camera
 
-  "Select the desired post processing effect filter to apply to the 3D rendering.\nThe default value is: PS2.", // skygfx_colorfilter
-  "Enables shading effects that resamble the PS2 build.\nThe default value is: Enabled.", // skygfx_ps2_shading
-  "Enables corona sun effect that resambles the PS2 build.\nThe default value is: Enabled.", // skygfx_ps2_sun
+  "Выбор эффекта постобработки (светофильтр) для отображения в игре.\nПо умолчанию: PS2.", // skygfx_colorfilter
+  "Включает эффекты затенения аналогично PS2-версии игры.\nПо умолчанию: Включено.", // skygfx_ps2_shading
+  "Включает эффекты освещения, аналогично PS2-версии игры.\nПо умолчанию: Включено.", // skygfx_ps2_sun
   
-  "Internal resolution to use. When a resolution higher than 544p is used on a PSVita, Sharpscale plugin is required.\nThe default value is: 544p.", // resolution
-  "Anti-Aliasing is a technique used to reduce graphical artifacts surrounding 3D models. Greatly improves graphics quality at the cost of some GPU power.\nThe default value is: MSAA 2x.", // aa_mode
-  "When enabled, high detail player textures are used.\nThe default value is: Disabled.", // enable_high_detail_player
-  "When enabled, detail textures will be rendered.\nThe default value is: Disabled.", // disable_detail_textures
-  "When enabled, mipmaps will have more precise bias adjustments at the cost of more expensive GPU code execution.\nThe default value is: Disabled.", // disable_tex_bias
-  "When enabled, mipmaps will be used causing an higher memory usage and CPU usage but lower memory bandwidth over GPU.\nThe default value is: Enabled.", // disable_mipmaps
-  "Makes hardware accelerated skinning properly work. Fixes broken animations especially noticeable in facial animations.\nThe default value is: Enabled.", // fix_skin_weights
-  "When enabled, peds will have specular lighting reflections applied to their models.\nThe default value is: Disabled.", // disable_ped_spec
-  "When enabled, Mobile build widgets and windows will be shown (eg. App rating window, cutscene skip widgets, etc...)\nThe default value is: Disabled.", // ignore_mobile_stuff
-  "Enables current wanted level star display during all times in gameplay\nThe default value is: Enabled.",// show_wanted_stars
-  "Enables road reflections during wet weather types\nThe default value is: Enabled.",// road_reflections
-  "Disables Expanded FOV effect triggered when driving a vehicle \nThe default value is: Disabled.",// car_fov_effects  
+  "Выбор разрешения в игре. Используйте плагин Sharpscale, если выбрано разрешение выше чем 544p.\nПо умолчанию: 544p.", // resolution
+  "Выбор метода и уровня сглаживания в игре.\nПо умолчанию: MSAA 2x.", // aa_mode
+  "Включает отображение более качественных текстур для модели игрока.\nПо умолчанию: Отключено.", // enable_high_detail_player
+  "Включает отображение более качественных текстур.\nПо умолчанию: Отключено.", // disable_detail_textures
+  "Включает точное смещение MIP-текстур. Увеличивает нагрузку на GPU.\nПо умолчанию: Отключено.", // disable_tex_bias
+  "Использовать фильтрацию текстур с помощью MIP-карт. Увеличивает нагрузку на CPU, но уменьшает на GPU.\nПо умолчанию: Включено.", // disable_mipmaps
+  "Аппаратная обработка моделей, позволяет исправить анимации, в том числе и лицевые.\nПо умолчанию: Включено.", // fix_skin_weights
+  "Включает отражения на моделях NPC в игре.\nПо умолчанию: Отключено.", // disable_ped_spec
+  "Включает отображение иконок и элементов из мобильной версии игры.\nПо умолчанию: Отключено.", // ignore_mobile_stuff
+  "Постоянное отображение звезд розыска в HUD.\nПо умолчанию: Вкючено.",// show_wanted_stars
+  "Включает отражения на дороге во время дождя.\nПо умолчанию: Включено.",// road_reflections
+  "Отключает FOV-эффект при управлении транспортом. \nПо умолчанию: Отключено.",// car_fov_effects  
 
-  "When enabled, MP3 audio loading may be faster but less accurate.\nThe default value is: Disabled.", // enable_fuzzy_seek
-  "Moves MVP calculation from GPU to CPU. May improve performances.\nThe default value is: Disabled.", // enable_mvp_optimization
-  "Simplify GPU code related to bones calculations by preventing CPU to transpose the related matrix.\nThe default value is: Disabled.", // enable_bones_optimization
+  "Ускоряет загрузку MP3-аудио, но обработка становится менее точной.\nПо умолчанию: Отключено.", // enable_fuzzy_seek
+  "Перенос просчета MVP с GPU на CPU. Может улучшить производительность.\nПо умолчанию: Отключено.", // enable_mvp_optimization
+  "Перенос просчета структуры моделей с CPU на GPU. Влияет на производительность.\nПо умолчанию: Отключено.", // enable_bones_optimization
+
+  "Сохранить настройки и выйти из приложения.", // save_exit
+  "Сохранить настройки и запустить игру.", // save_launch
+  "Отменить последние изменения и выйти из приложения.", // cancel_exit
+  "Отменить последние изменения и запустить игру.", // cancel_launch
 };
 
 enum {
@@ -531,7 +536,12 @@ enum {
 
   OPT_FUZZY_SEEK,
   OPT_MVP_OPT,
-  OPT_BONES_OPT
+  OPT_BONES_OPT,
+  
+  SAVE_EXIT_OPT,
+  SAVE_LAUNCH_OPT,
+  CANCEL_EXIT_OPT,
+  CANCEL_LAUNCH_OPT,
 };
 
 char *desc = nullptr;
@@ -573,32 +583,25 @@ ImVec2 FloorImVec2(const ImVec2& vec) {
 
 bool CustomTextButton(const char* label, ImVec4 normalColor, ImVec4 hoverColor, const char* unique_id) {
     std::string full_label = std::string(label) + "###" + unique_id;
-    
     ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0, 0, 0, 0));
-    
     ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
     ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0, 0, 0, 0));
     ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0, 0, 0, 0));
     ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0, 0, 0, 0));
     ImGui::PushStyleColor(ImGuiCol_NavHighlight, ImVec4(ImColor(0, 0, 0, 0)));
-    
     bool pressed = ImGui::Button(full_label.c_str());
-    
     ImGui::PopStyleColor(6);
-    
+
     bool isFocused = ImGui::IsItemFocused();
-    
     ImVec2 pos = ImGui::GetItemRectMin();
     ImVec2 size = ImGui::GetItemRectSize();
-    
     ImVec2 window_pos = ImGui::GetWindowPos();
-    
     ImVec2 raw_text_pos = ImVec2(
         window_pos.x + pos.x + 5.0f,
         window_pos.y + pos.y + (size.y - ImGui::GetFontSize()) * 0.5f
     );
+	
     ImVec2 text_pos = FloorImVec2(raw_text_pos);
-    
     ImDrawList* draw_list = ImGui::GetWindowDrawList();
     ImColor text_color = isFocused ? ImColor(hoverColor) : ImColor(normalColor);
     draw_list->AddText(text_pos, text_color, label);
@@ -631,7 +634,6 @@ int main(int argc, char *argv[]) {
   ImFont* FontLg;
   ImFont* FontSa;
 
-
   ImGuiIO& io = ImGui::GetIO();
   FontSm = ImGui::GetIO().Fonts->AddFontFromFileTTF("centurygothic.ttf", 16, nullptr, io.Fonts->GetGlyphRangesCyrillic());
   FontLg = ImGui::GetIO().Fonts->AddFontFromFileTTF("centurygothic.ttf", 18, nullptr, io.Fonts->GetGlyphRangesCyrillic());
@@ -651,30 +653,30 @@ int main(int argc, char *argv[]) {
     ImGui::PushFont(FontLg);	
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 0.0f));
     ImGui::SetCursorPos({136, 60});	
-    ImGui::Text("Touchpanels Deadzone:"); ImGui::SameLine();
+    ImGui::Text("Мертвая зона сенсора:"); ImGui::SameLine();
     ImGui::PushItemWidth(494);
     ImGui::SliderInt("##touch_x_margin", &touch_x_margin, 0, 256);
     SetDescription(OPT_DEADZONE);
 
     ImGui::SetCursorPos({391, 91});	
-    ImGui::Text("Front Touchpad L2/R2:"); ImGui::SameLine();
+    ImGui::Text("Перенести L2/R2:"); ImGui::SameLine();
     ImGui::Checkbox("##check14", &front_touch_triggers);	
     SetDescription(OPT_FRONT_TOUCH_TRIGGERS);
 
     ImGui::SetCursorPos({663, 91});	
-    ImGui::Text("Flying Control Fix:"); ImGui::SameLine();
+    ImGui::Text("Обзор при полете:"); ImGui::SameLine();
     ImGui::Checkbox("##check1", &fix_heli_plane_camera);
     SetDescription(OPT_FLYING_VEHICLES_FIX);
     ImGui::PopStyleVar();	
 
     ImGui::SetCursorPos({136, 88});		
-    if (ImGui::Button("Configure Controls")) {
+    if (ImGui::Button("Настройки управления")) {
       show_controls_window = !show_controls_window;
       if (show_controls_window) loadButtons();
     }
 
     ImGui::SetCursorPos({136, 153});	
-    ImGui::Text("Colour Filter:"); ImGui::SameLine();
+    ImGui::Text("Фильтр:"); ImGui::SameLine();
     ImGui::PushItemWidth(89);
     if (ImGui::BeginCombo("##combo", SkyGfxColorFilterName[skygfx_colorfilter])) {
       for (int n = 0; n < SKYGFX_COLOR_FILTER_NUM; n++) {
@@ -692,18 +694,18 @@ int main(int argc, char *argv[]) {
 
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 0.0f));
     ImGui::SetCursorPos({391, 156});
-    ImGui::Text("PS2 Shading:"); ImGui::SameLine();
+    ImGui::Text("PS2-затенение:"); ImGui::SameLine();
     ImGui::Checkbox("##check2", &skygfx_ps2_shading);
     SetDescription(OPT_PS2_SHADING);
 
     ImGui::SetCursorPos({663, 156});	
-    ImGui::Text("PS2 Corona Sun:"); ImGui::SameLine();
+    ImGui::Text("PS2-освещение:"); ImGui::SameLine();
     ImGui::Checkbox("##check3", &skygfx_ps2_sun);
     SetDescription(OPT_PS2_SUN);
     ImGui::PopStyleVar();
 
     ImGui::SetCursorPos({136, 220});	
-    ImGui::Text("Resolution:"); ImGui::SameLine();
+    ImGui::Text("Разрешение:"); ImGui::SameLine();
     ImGui::PushItemWidth(100);
     if (ImGui::BeginCombo("##combor", ResolutionName[resolution])) {
       for (int n = 0; n < RESOLUTION_NUM; n++) {
@@ -720,7 +722,7 @@ int main(int argc, char *argv[]) {
     ImGui::PopItemWidth();
 	
     ImGui::SetCursorPos({391, 220});	
-    ImGui::Text("Anti-Aliasing:"); ImGui::SameLine();
+    ImGui::Text("Сглаживание:"); ImGui::SameLine();
     ImGui::PushItemWidth(100);
     if (ImGui::BeginCombo("##combo2", AntiAliasingName[aa_mode])) {
       for (int n = 0; n < ANTI_ALIASING_NUM; n++) {
@@ -738,67 +740,67 @@ int main(int argc, char *argv[]) {
 
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 0.0f));	
     ImGui::SetCursorPos({391, 254});	
-    ImGui::Text("Detail Player Textures:"); ImGui::SameLine();
+    ImGui::Text("Детальные текстуры игрока:"); ImGui::SameLine();
     ImGui::Checkbox("##check15", &high_detail_player);
     SetDescription(OPT_HI_DETAIL_PLAYER);
 
     ImGui::SetCursorPos({136, 254});	
-    ImGui::Text("Detail Textures:"); ImGui::SameLine();
+    ImGui::Text("Детальные текстуры:"); ImGui::SameLine();
     ImGui::Checkbox("##check4", &detail_textures);
     SetDescription(OPT_DETAIL_TEX);	
 
     ImGui::SetCursorPos({663, 254});	
-    ImGui::Text("Texture Bias:"); ImGui::SameLine();
+    ImGui::Text("Смещение MIP:"); ImGui::SameLine();
     ImGui::Checkbox("##check5", &tex_bias);
     SetDescription(OPT_TEX_BIAS);
 
     ImGui::SetCursorPos({663, 223});	
-    ImGui::Text("Mipmaps:"); ImGui::SameLine();
+    ImGui::Text("MIP-карты:"); ImGui::SameLine();
     ImGui::Checkbox("##check6", &mipmaps);
     SetDescription(OPT_MIPMAPS);
 
     ImGui::SetCursorPos({663, 282});	
-    ImGui::Text("Skinning Fix:"); ImGui::SameLine();
+    ImGui::Text("Исправление лиц:"); ImGui::SameLine();
     ImGui::Checkbox("##check7", &fix_skin_weights);
     SetDescription(OPT_SKINNING_FIX);
 
     ImGui::SetCursorPos({391, 282});	
-    ImGui::Text("Peds Reflections:"); ImGui::SameLine();
+    ImGui::Text("Отражения на NPC:"); ImGui::SameLine();
     ImGui::Checkbox("##check8", &ped_spec);
     SetDescription(OPT_PED_SPEC);	
 
     ImGui::SetCursorPos({663, 310});	
-    ImGui::Text("Mobile Widgets:"); ImGui::SameLine();
+    ImGui::Text("Мобильные иконки:"); ImGui::SameLine();
     ImGui::Checkbox("##check11", &mobile_stuff);
     SetDescription(OPT_MOBILE_STUFF);
 
     ImGui::SetCursorPos({391, 310});
-    ImGui::Text("Show Wanted Stars:"); ImGui::SameLine();	
+    ImGui::Text("Звезды розыска:"); ImGui::SameLine();	
     ImGui::Checkbox("##check17", &show_wanted_stars);
     SetDescription(OPT_WANTED_STARS);
 
     ImGui::SetCursorPos({136, 282});	
-    ImGui::Text("Road Reflections:"); ImGui::SameLine();	
+    ImGui::Text("Дорожные отражения:"); ImGui::SameLine();	
     ImGui::Checkbox("##check18", &road_reflections);
     SetDescription(OPT_ROAD_REFLECTIONS);
 
     ImGui::SetCursorPos({136, 310});	
-    ImGui::Text("Disable In-Vehicle FOV:"); ImGui::SameLine();	
+    ImGui::Text("Откл. эффект FOV:"); ImGui::SameLine();	
     ImGui::Checkbox("##check19", &car_fov_effects);
     SetDescription(OPT_CAR_FOV_EFFECTS);
 
     ImGui::SetCursorPos({663, 374});	
-    ImGui::Text("MP3 Fuzzy Seek:"); ImGui::SameLine();
+    ImGui::Text("Упрощение MP3:"); ImGui::SameLine();
     ImGui::Checkbox("##check16", &fuzzy_seek);
     SetDescription(OPT_FUZZY_SEEK); ImGui::SameLine();	
 
     ImGui::SetCursorPos({136, 374});	
-    ImGui::Text("MVP Optimization:"); ImGui::SameLine();
+    ImGui::Text("Оптимизация MVP:"); ImGui::SameLine();
     ImGui::Checkbox("##check12", &enable_mvp_optimization);
     SetDescription(OPT_MVP_OPT); ImGui::SameLine();	
 
     ImGui::SetCursorPos({391, 374});	
-    ImGui::Text("Bones Optimization:"); ImGui::SameLine();
+    ImGui::Text("Оптимизация моделей:"); ImGui::SameLine();
     ImGui::Checkbox("##check13", &enable_bones_optimization);
     SetDescription(OPT_BONES_OPT);
     ImGui::PopStyleVar();	
@@ -808,21 +810,25 @@ int main(int argc, char *argv[]) {
     ImVec4 normalColor = ImVec4(168.0f / 255.0f, 116.0f / 255.0f, 7.0f / 255.0f, 1.0f);
     ImVec4 hoverColor = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-    ImGui::SetCursorPos(ImVec2(164, 406));
-    if (CustomTextButton("save and exit", normalColor, hoverColor, "save_exit"))
+    ImGui::SetCursorPos(ImVec2(200, 406));
+    if (CustomTextButton("выход", normalColor, hoverColor, "save_exit"))
         exit_code = 0;
+    SetDescription(SAVE_EXIT_OPT);
 
-    ImGui::SetCursorPos(ImVec2(302, 406));
-    if (CustomTextButton("save and launch", normalColor, hoverColor, "save_launch"))
+    ImGui::SetCursorPos(ImVec2(285, 406));
+    if (CustomTextButton("запустить игру", normalColor, hoverColor, "save_launch"))
         exit_code = 1;
+    SetDescription(SAVE_LAUNCH_OPT);
 
     ImGui::SetCursorPos(ImVec2(463, 406));
-    if (CustomTextButton("cancel and exit", normalColor, hoverColor, "cancel_exit"))
+    if (CustomTextButton("сброс и выход", normalColor, hoverColor, "cancel_exit"))
         exit_code = 2;
+    SetDescription(CANCEL_EXIT_OPT);
 
-    ImGui::SetCursorPos(ImVec2(619, 406));
-    if (CustomTextButton("cancel and launch", normalColor, hoverColor, "cancel_launch"))
+    ImGui::SetCursorPos(ImVec2(620, 406));
+    if (CustomTextButton("сброс и запуск", normalColor, hoverColor, "cancel_launch"))
         exit_code = 3;
+    SetDescription(CANCEL_LAUNCH_OPT);
 
     ImGui::PopFont();
 
@@ -838,15 +844,15 @@ int main(int argc, char *argv[]) {
     if (show_controls_window) {
       ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiSetCond_Always);
       ImGui::SetNextWindowSize(ImVec2(960, 544), ImGuiSetCond_Always);
-      ImGui::Begin("Controls Configuration", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
+      ImGui::Begin("Настройки управления", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
       ImGui::SetCursorPosX(320);
       ImGui::PushItemWidth(150);
-      if (ImGui::Button("Save Changes")) {
+      if (ImGui::Button("Сохранить")) {
         show_controls_window = !show_controls_window;
         saveButtons();
       }
       ImGui::SameLine();
-      if (ImGui::Button("Cancel Changes")) {
+      if (ImGui::Button("Отмена")) {
         show_controls_window = !show_controls_window;
         sceClibMemcpy(controls_map, backup_controls_map, CONTROLS_MAPPINGS_NUM * sizeof(int));
         sceClibMemcpy(secondary_controls_map, backup_secondary_controls_map, CONTROLS_MAPPINGS_NUM * sizeof(int));
