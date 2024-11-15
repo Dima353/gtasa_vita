@@ -1052,6 +1052,21 @@ void patch_game(void) {
   //Remove "ExtraAirResistance" flag 
   hook_addr(so_symbol(&gtasa_mod, "_ZN10CCullZones29DoExtraAirResistanceForPlayerEv"), (uintptr_t)ret0); 
 
+  // SilentPatchSA: ImpoundGarages
+  uint32_t nop25 = 0xECFAF6A5;
+  uint32_t nop26 = 0xEC56F6A5;
+  uint32_t nop27 = 0xEC08F6A5;
+  kuKernelCpuUnrestrictedMemcpy((void *)(gtasa_mod.text_base + 0x2EC752), &nop25, sizeof(nop25));
+  kuKernelCpuUnrestrictedMemcpy((void *)(gtasa_mod.text_base + 0x2EC898), &nop26, sizeof(nop26));
+  kuKernelCpuUnrestrictedMemcpy((void *)(gtasa_mod.text_base + 0x2EC936), &nop27, sizeof(nop27));
+
+  const uint16_t nop28 = 0xbf00;
+  uintptr_t ImpoundGarages = gtasa_mod.text_base + 0x3086CC;
+
+  for (int i = 0; i < 1; ++i) {
+    kuKernelCpuUnrestrictedMemcpy((void *)(ImpoundGarages + (i * sizeof(uint16_t))), &nop28, sizeof(nop28));
+  }
+
   // support graceful exit
   SaveGameForPause = (void *)so_symbol(&gtasa_mod, "_Z16SaveGameForPause10eSaveTypesPc");
   hook_addr(so_symbol(&gtasa_mod, "_ZN14MainMenuScreen6OnExitEv"), (uintptr_t)MainMenuScreen__OnExit);

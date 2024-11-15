@@ -36,6 +36,7 @@ By doing so, it's basically as if we emulate a minimalist Android environment in
   - Sprinting on any surface is allowed
   - Radar streaming should be fixed
   - Remove "ExtraAirResistance" flag
+  - SilentPatchSA: ImpoundGarages
 - Returned fix emergency vehicles (fixed sniper scope)
 - Use vitaGL's shader cache by TheOfficialFloW
 - Fix for CJ's classic shadow by Ardetis
