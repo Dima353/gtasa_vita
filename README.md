@@ -165,6 +165,8 @@ You can launch the Configurator app by clicking on the `Configuration` button lo
 
 <p align="center"><img src="./screenshots/livearea_configuration.png"></p>
 
+<p align="center"><img src="./screenshots/configuration_app.png"></p>
+
 ## Tips and Tricks
 
 ### Gameplay
