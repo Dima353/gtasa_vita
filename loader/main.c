@@ -802,34 +802,31 @@ void patch_game(void) {
   }
 
   // Show muzzle flash for the last bullet in magazine 
-  const uint16_t nop = 0xbf00;
   uintptr_t destinationAddress = gtasa_mod.text_base + 0x4DDCCA;
 
   // Add 10 NOP instructions
   for (int i = 0; i < 10; ++i) {
-    kuKernelCpuUnrestrictedMemcpy((void *)(destinationAddress + (i * sizeof(uint16_t))), &nop, sizeof(nop));
+    kuKernelCpuUnrestrictedMemcpy((void *)(destinationAddress + (i * sizeof(uint16_t))), &nopInstruction, sizeof(nopInstruction));
   }
   
   // An ability to remove FOV-effect while driving a car
   if(config.car_fov_effects){  
-    const uint16_t nop23 = 0xBF00;
     uintptr_t PlaseNOP = gtasa_mod.text_base + 0x3C07E6 + 0x1;
     uintptr_t PlaseNOP2 = gtasa_mod.text_base + 0x3C082C + 0x1;
 
     for (size_t i = 0; i < 2; ++i) {
-      kuKernelCpuUnrestrictedMemcpy((void*)(PlaseNOP), &nop23, sizeof(nop23));
-      kuKernelCpuUnrestrictedMemcpy((void*)(PlaseNOP2), &nop23, sizeof(nop23));
+      kuKernelCpuUnrestrictedMemcpy((void*)(PlaseNOP), &nopInstruction, sizeof(nopInstruction));
+      kuKernelCpuUnrestrictedMemcpy((void*)(PlaseNOP2), &nopInstruction, sizeof(nopInstruction));
     }
   }
 
   // Aiming with Country Rifle is now in 3rd person
-  const uint16_t nop24 = 0xBF00;
   const uint32_t patch = 0xFF;
   uintptr_t firstPatch = gtasa_mod.text_base + 0x5378C0;
   uintptr_t secondPatch = gtasa_mod.text_base + 0x53813C;
   
   for (size_t i = 0; i < 3; ++i) {
-    kuKernelCpuUnrestrictedMemcpy((void*)(firstPatch + (i * sizeof(uint16_t))), &nop24, sizeof(nop24));
+    kuKernelCpuUnrestrictedMemcpy((void*)(firstPatch + (i * sizeof(uint16_t))), &nopInstruction, sizeof(nopInstruction));
     kuKernelCpuUnrestrictedMemcpy((void*)(secondPatch), &patch, sizeof(patch));
   }  
 
@@ -1051,21 +1048,6 @@ void patch_game(void) {
   
   //Remove "ExtraAirResistance" flag 
   hook_addr(so_symbol(&gtasa_mod, "_ZN10CCullZones29DoExtraAirResistanceForPlayerEv"), (uintptr_t)ret0); 
-
-  // SilentPatchSA: ImpoundGarages
-  uint32_t nop25 = 0xECFAF6A5;
-  uint32_t nop26 = 0xEC56F6A5;
-  uint32_t nop27 = 0xEC08F6A5;
-  kuKernelCpuUnrestrictedMemcpy((void *)(gtasa_mod.text_base + 0x2EC752), &nop25, sizeof(nop25));
-  kuKernelCpuUnrestrictedMemcpy((void *)(gtasa_mod.text_base + 0x2EC898), &nop26, sizeof(nop26));
-  kuKernelCpuUnrestrictedMemcpy((void *)(gtasa_mod.text_base + 0x2EC936), &nop27, sizeof(nop27));
-
-  const uint16_t nop28 = 0xbf00;
-  uintptr_t ImpoundGarages = gtasa_mod.text_base + 0x3086CC;
-
-  for (int i = 0; i < 1; ++i) {
-    kuKernelCpuUnrestrictedMemcpy((void *)(ImpoundGarages + (i * sizeof(uint16_t))), &nop28, sizeof(nop28));
-  }
 
   // support graceful exit
   SaveGameForPause = (void *)so_symbol(&gtasa_mod, "_Z16SaveGameForPause10eSaveTypesPc");
