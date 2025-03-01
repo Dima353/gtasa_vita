@@ -36,7 +36,6 @@ By doing so, it's basically as if we emulate a minimalist Android environment in
   - Sprinting on any surface is allowed
   - Radar streaming should be fixed
   - Remove "ExtraAirResistance" flag
-  - SilentPatchSA: ImpoundGarages
 - Returned fix emergency vehicles (fixed sniper scope)
 - Use vitaGL's shader cache by TheOfficialFloW
 - Fix for CJ's classic shadow by Ardetis
@@ -164,6 +163,8 @@ The Configurator app will allow users to enable or disable a set of optimization
 You can launch the Configurator app by clicking on the `Configuration` button located on the LiveArea section of the port as shown in the following screenshot.
 
 <p align="center"><img src="./screenshots/livearea_configuration.png"></p>
+
+<p align="center"><img src="./screenshots/configuration_app.png"></p>
 
 ## Tips and Tricks
 
