@@ -811,8 +811,8 @@ void patch_game(void) {
   
   // An ability to remove FOV-effect while driving a car
   if(config.car_fov_effects){  
-    uintptr_t PlaseNOP = gtasa_mod.text_base + 0x3C07E6 + 0x1;
-    uintptr_t PlaseNOP2 = gtasa_mod.text_base + 0x3C082C + 0x1;
+    uintptr_t PlaseNOP = gtasa_mod.text_base + 0x3C07E7 + 0x1;
+    uintptr_t PlaseNOP2 = gtasa_mod.text_base + 0x3C082D + 0x1;
 
     for (size_t i = 0; i < 2; ++i) {
       kuKernelCpuUnrestrictedMemcpy((void*)(PlaseNOP), &nopInstruction, sizeof(nopInstruction));
