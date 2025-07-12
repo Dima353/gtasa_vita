@@ -1007,7 +1007,7 @@ void ProcessSwimmingResistance(void *task, void *ped) {
     *(CVector *) (ped + 0x48) =
             multiply_scalar(*(CVector *) (ped + 0x48), fTheTimeStep);
     if (IsPlayer(ped))
-        vecPedMoveSpeed = multiply_scalar(vecPedMoveSpeed, 3.25f);
+        vecPedMoveSpeed = multiply_scalar(vecPedMoveSpeed, 1.25f);
     *(CVector *) (ped + 0x48) =
             add_vectors(*(CVector *) (ped + 0x48), vecPedMoveSpeed);
 
