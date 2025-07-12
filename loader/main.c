@@ -1012,25 +1012,26 @@ void ProcessSwimmingResistance(void *task, void *ped) {
             add_vectors(*(CVector *) (ped + 0x48), vecPedMoveSpeed);
 
     CVector pedPos = *(CVector *) (*(void **) (ped + 0x14) + 0x30);
-    uint8_t bUpdateRotationX = 1;
+    uint8_t bUpdateRotationX = SCE_TRUE;
     const CVector vecCheckWaterLevelPos = add_vectors(
             pedPos, multiply_scalar(*(CVector *) (ped + 0x48), *ms_fTimeStep));
 
     float fWaterLevel = 0.0f;
     if (!GetWaterLevelFull(vecCheckWaterLevelPos.x, vecCheckWaterLevelPos.y,
-                           vecCheckWaterLevelPos.z, &fWaterLevel, 1, NULL)) {
+                           vecCheckWaterLevelPos.z, &fWaterLevel, SCE_TRUE,
+                           NULL)) {
         fSubmergeZ = -1.0f;
-        bUpdateRotationX = 0;
+        bUpdateRotationX = SCE_FALSE;
     } else {
         if (*(uint16_t *) (task + 0xA) != SWIM_UNDERWATER_SPRINTING ||
             *(float *) (task + 0x34) < 0.0f) {
-            bUpdateRotationX = 0;
+            bUpdateRotationX = SCE_FALSE;
         } else {
             if (pedPos.z + 0.65f > fWaterLevel &&
                 *(float *) (task + 0x24) > 0.7854f) {
                 *(uint16_t *) (task + 0xA) = SWIM_TREAD;
                 *(float *) (task + 0x34) = 0.0f;
-                bUpdateRotationX = 0;
+                bUpdateRotationX = SCE_FALSE;
             }
         }
     }
@@ -1942,6 +1943,9 @@ int main(int argc, char *argv[]) {
     if (!file_exists("ur0:/data/libshacccg.suprx") &&
         !file_exists("ur0:/data/external/libshacccg.suprx"))
         fatal_error("Error libshacccg.suprx is not installed.");
+
+    if (!file_exists(RT_INI_PATH))
+        fatal_error("No smoke. No streets.\nMissing files at %s.", DATA_PATH);
 
     if (so_load(&gtasa_mod, SO_PATH, LOAD_ADDRESS) < 0)
         fatal_error("Error could not load %s.", SO_PATH);
