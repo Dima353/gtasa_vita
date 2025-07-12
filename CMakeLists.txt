@@ -138,3 +138,13 @@ add_custom_target(copy
   DEPENDS eboot.bin
   DEPENDS companion.bin
 )
+
+set(PSVITAIP "192.168.1.229")
+set(VITA_TITLEID "GTASA0000")
+
+add_custom_target(build_and_send
+        COMMAND cmake --build .
+        COMMAND echo destroy | nc ${PSVITAIP} 1338
+        COMMAND curl -T eboot.bin ftp://${PSVITAIP}:1337/ux0:/app/${VITA_TITLEID}/
+        COMMAND echo launch ${VITA_TITLEID} | nc ${PSVITAIP} 1338
+)
