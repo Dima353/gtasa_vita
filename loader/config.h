@@ -15,6 +15,7 @@
 #define CONTROLLER_CONFIG_PATH DATA_PATH "/" "controls.txt"
 #define SCRIPT_SCM_PATH DATA_PATH "/data/script/mainV1.scm"
 #define SCRIPT_IMG_PATH DATA_PATH "/data/script/scriptv1.img"
+#define RT_INI_PATH DATA_PATH "/" "aert.ini"
 
 #define DEF_SCREEN_W 960
 #define DEF_SCREEN_H 544
