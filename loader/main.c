@@ -777,10 +777,9 @@ static int (*CPlayerPed__FindNextWeaponLockOnTarget)(void *pad, void *a2,
                                                      int a3);
 static void (*CPlayerPed__ClearWeaponTarget)(void *playerPed);
 
-static void *pad, *prevTarget, *playerPed;
-
 __attribute__((naked)) void
 CTaskSimplePlayerOnFoot__ProcessPlayerWeapon_stub(void) {
+    void *pad, *playerPed, *prevTarget;
     asm volatile("push {r0-r11}\n"
                  "mov r0, r5\n"
                  "str r0, %0\n"
