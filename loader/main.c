@@ -1990,15 +1990,15 @@ int main(int argc, char *argv[]) {
     SceCtrlData pad;
     video_open(DATA_PATH "/movies/logo.mp4");
     while (!video_draw()) {
-        sceCtrlPeekBufferPositive(0, &pad, 1);
-        if (pad.buttons)
+        sceCtrlReadBufferPositive(0, &pad, 1);
+        if (pad.buttons == SCE_CTRL_CROSS)
             video_stop();
     }
-    sceKernelDelayThread(32000);
+    sceKernelDelayThread(64000);
     video_open(DATA_PATH "/movies/intro.mp4");
     while (!video_draw()) {
-        sceCtrlPeekBufferPositive(0, &pad, 1);
-        if (pad.buttons)
+        sceCtrlReadBufferPositive(0, &pad, 1);
+        if (pad.buttons == SCE_CTRL_CROSS)
             video_stop();
     }
 

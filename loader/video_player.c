@@ -116,7 +116,7 @@ int movie_audio_thread(SceSize args, void *argp) {
     return sceKernelExitDeleteThread(0);
 }
 
-int movie_video_inited = 0;
+SceBool movie_video_inited = SCE_FALSE;
 void movie_video_init() {
     if (movie_video_inited)
         return;
@@ -146,7 +146,7 @@ void movie_video_init() {
     glLinkProgram(movie_prog);
     glUniform1i(glGetUniformLocation(movie_prog, "tex"), 0);
 
-    movie_video_inited = 1;
+    movie_video_inited = SCE_TRUE;
 }
 
 void video_open(const char *path) {
