@@ -10,7 +10,7 @@ endif()
 
 project(GTASA.elf C CXX)
 include("${VITASDK}/share/vita.cmake" REQUIRED)
-set(VITA_APP_NAME "GTA: SA")
+set(VITA_APP_NAME "GTA: San Andreas")
 set(VITA_TITLEID  "GTASA0000")
 set(VITA_VERSION  "02.50")
 set(VITA_MKSFOEX_FLAGS "-d ATTRIBUTE2=12")
@@ -30,6 +30,7 @@ add_executable(GTASA.elf
   loader/opengl_patch.c
   loader/gfx_patch.c
   loader/scripts_patch.c
+  loader/video_player.c
 )
 
 add_dependencies(GTASA.elf companion.bin)
@@ -62,6 +63,7 @@ target_link_libraries(GTASA.elf
   ScePower_stub
   SceTouch_stub
   SceVshBridge_stub
+  SceAvPlayer_stub
 )
 
 add_executable(companion
@@ -137,4 +139,14 @@ add_custom_target(copy
   COMMAND cp companion.bin D:/app/${VITA_TITLEID}/companion.bin
   DEPENDS eboot.bin
   DEPENDS companion.bin
+)
+
+set(PSVITAIP "192.168.99.73")
+set(VITA_TITLEID "GTASA0000")
+
+add_custom_target(build_and_send
+        COMMAND cmake --build .
+        COMMAND echo destroy | nc ${PSVITAIP} 1338
+        COMMAND curl -T eboot.bin ftp://${PSVITAIP}:1337/ux0:/app/${VITA_TITLEID}/
+        COMMAND echo launch ${VITA_TITLEID} | nc ${PSVITAIP} 1338
 )
