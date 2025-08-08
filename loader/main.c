@@ -1988,14 +1988,14 @@ int main(int argc, char *argv[]) {
 
     // Play videos
     SceCtrlData pad;
-    video_open(DATA_PATH "/logo.mp4");
+    video_open(DATA_PATH "/movies/logo.mp4");
     while (!video_draw()) {
         sceCtrlPeekBufferPositive(0, &pad, 1);
         if (pad.buttons)
             video_stop();
     }
     sceKernelDelayThread(32000);
-    video_open(DATA_PATH "/intro.mp4");
+    video_open(DATA_PATH "/movies/intro.mp4");
     while (!video_draw()) {
         sceCtrlPeekBufferPositive(0, &pad, 1);
         if (pad.buttons)
