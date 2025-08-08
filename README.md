@@ -235,7 +235,7 @@ Additionally, you'll need these libraries to be compiled as well with `-mfloat-a
 - [vitaGL](https://github.com/Rinnegatamante/vitaGL)
 
   - ````bash
-    make SOFTFP_ABI=1 HAVE_SHADER_CACHE=1 SHARED_RENDERTARGETS=1 CIRCULAR_VERTEX_POOL=2 TEXTURES_SPEEDHACK=1 SAMPLERS_SPEEDHACK=1 NO_DEBUG=1 install
+    make SOFTFP_ABI=1 HAVE_SHADER_CACHE=1 SHARED_RENDERTARGETS=1 CIRCULAR_VERTEX_POOL=2 TEXTURES_SPEEDHACK=1 SAMPLERS_SPEEDHACK=1 NO_DEBUG=1 PHYCONT_ON_DEMAND=1 install
     ````
 
 Finally, in the folder of `gtasa_vita`, install SceLibc stubs using:
