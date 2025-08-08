@@ -21,8 +21,8 @@ void *__wrap_memset(void *s, int c, size_t n) {
 }
 }
 
-#define CONFIG_FILE_PATH "ux0:data/rt/gtasa/config.txt"
-#define CONTROLS_FILE_PATH "ux0:data/rt/gtasa/controls.txt"
+#define CONFIG_FILE_PATH "ux0:data/gtasa/config.txt"
+#define CONTROLS_FILE_PATH "ux0:data/gtasa/controls.txt"
 
 #define SKYGFX_COLOR_FILTER_NUM 4
 enum SkyGfxColorFilter {
