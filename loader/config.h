@@ -9,7 +9,7 @@
 #define MEMORY_NEWLIB_MB 192
 #define MEMORY_VITAGL_THRESHOLD_MB 24
 
-#define DATA_PATH "ux0:data/rt/gtasa"
+#define DATA_PATH "ux0:data/gtasa"
 #define SO_PATH DATA_PATH "/" "libGTASA.so"
 #define CONFIG_PATH DATA_PATH "/" "config.txt"
 #define CONTROLLER_CONFIG_PATH DATA_PATH "/" "controls.txt"
