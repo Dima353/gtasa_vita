@@ -10,7 +10,7 @@ endif()
 
 project(GTASA.elf C CXX)
 include("${VITASDK}/share/vita.cmake" REQUIRED)
-set(VITA_APP_NAME "GTA: SA")
+set(VITA_APP_NAME "GTA: San Andreas")
 set(VITA_TITLEID  "GTASA0000")
 set(VITA_VERSION  "02.50")
 set(VITA_MKSFOEX_FLAGS "-d ATTRIBUTE2=12")

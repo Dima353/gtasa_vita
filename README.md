@@ -17,6 +17,7 @@ By doing so, it's basically as if we emulate a minimalist Android environment in
 
 ### v2.5
 
+- Added support for video playback by SkyForces.
 - Rebuild companion:
   -  Added some custom patches
   -  Added background. Thanks to Once13One
@@ -151,6 +152,12 @@ In order to properly install the game, you'll have to follow these steps precise
 - Same as before, open the `patch.8.com.rockstargames.gtasa.obb` with the zip explorer and extract the contents inside the zip to `ux0:data/gtasa`.
 - Download the [gamefiles.zip](https://github.com/TheOfficialFloW/gtasa_vita/releases/download/v2.1/gamefiles.zip) and extract the contents to `ux0:data/gtasa` (overwrite if asked).
 - **Optional**: For a more authentic console experience, copy the file `ux0:data/gtasa/data/360Default1280x720.cfg` to `ux0:data/gtasa/` and rename it from `360Default1280x720.cfg` to `Adjustable.cfg`. This file is a leftover from the Xbox 360 version and provides you the console HUD (e.g. radar on bottom left).
+- **Optional**: For the intro videos to work, you need to convert them using `ffmpeg`. You can take videos from the PC version.
+```cmd
+ffmpeg -i Logo.mpg -c:v libx264 -crf 23 -preset fast -c:a aac -b:a 128k -ar 48000 -ac 2 logo.mp4
+ffmpeg -i GTAtitles.mpg -c:v libx264 -crf 23 -preset fast -c:a aac -b:a 128k -ar 48000 -ac 2 intro.mp4
+```
+- Copy the `logo.mp4` and `intro.mp4` files to the path: `ux0:data/gtasa/movies/`.
 - Install [GTASA.vpk](https://github.com/TheOfficialFloW/gtasa_vita/releases/download/v2.1/GTASA.vpk) on your *PS Vita*.
 
 If you have followed the steps correctly, this is how your `ux0:data/gtasa` folder should look like.
