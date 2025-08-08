@@ -1904,6 +1904,10 @@ int file_exists(const char *path) {
     return sceIoGetstat(path, &stat) >= 0;
 }
 
+void video_open(const char *path);
+int video_draw();
+void video_stop();
+
 int main(int argc, char *argv[]) {
     // Check if we want to start the companion app
     sceAppUtilInit(&(SceAppUtilInitParam) {}, &(SceAppUtilBootParam) {});
@@ -1959,15 +1963,15 @@ int main(int argc, char *argv[]) {
     patch_game();
     patch_gfx();
     patch_scripts();
-    so_flush_caches(&gtasa_mod);
 
+    so_flush_caches(&gtasa_mod);
     so_initialize(&gtasa_mod);
 
     if (fios_init() < 0)
         fatal_error("Error could not initialize fios.");
 
     vglSetupRuntimeShaderCompiler(SHARK_OPT_UNSAFE, SHARK_ENABLE, SHARK_ENABLE,
-                                  SHARK_ENABLE);
+                                      SHARK_ENABLE);
     vglSetVDMBufferSize(512 * 1024); // default 128 * 1024
     vglSetVertexBufferSize(8 * 1024 * 1024); // default 2 * 1024 * 1024
     vglSetFragmentBufferSize(2 * 1024 * 1024); // default 512 * 1024
@@ -1975,11 +1979,27 @@ int main(int argc, char *argv[]) {
     vglSetVertexPoolSize(48 * 1024 * 1024);
     vglSetupGarbageCollector(127, 0x20000);
     int has_low_res = vglInitExtended(0, SCREEN_W, SCREEN_H,
-                                      MEMORY_VITAGL_THRESHOLD_MB * 1024 * 1024,
-                                      config.aa_mode);
+                                          MEMORY_VITAGL_THRESHOLD_MB * 1024 * 1024,
+                                          config.aa_mode);
     if (has_low_res) {
         SCREEN_W = DEF_SCREEN_W;
         SCREEN_H = DEF_SCREEN_H;
+    }
+
+    // Play videos
+    SceCtrlData pad;
+    video_open(DATA_PATH "/movies/logo.mp4");
+    while (!video_draw()) {
+        sceCtrlPeekBufferPositive(0, &pad, 1);
+        if (pad.buttons)
+            video_stop();
+    }
+    sceKernelDelayThread(32000);
+    video_open(DATA_PATH "/movies/intro.mp4");
+    while (!video_draw()) {
+        sceCtrlPeekBufferPositive(0, &pad, 1);
+        if (pad.buttons)
+            video_stop();
     }
 
     jni_load();
