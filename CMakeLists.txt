@@ -30,6 +30,7 @@ add_executable(GTASA.elf
   loader/opengl_patch.c
   loader/gfx_patch.c
   loader/scripts_patch.c
+  loader/video_player.c
 )
 
 add_dependencies(GTASA.elf companion.bin)
@@ -62,6 +63,7 @@ target_link_libraries(GTASA.elf
   ScePower_stub
   SceTouch_stub
   SceVshBridge_stub
+  SceAvPlayer_stub
 )
 
 add_executable(companion
@@ -139,7 +141,7 @@ add_custom_target(copy
   DEPENDS companion.bin
 )
 
-set(PSVITAIP "192.168.1.229")
+set(PSVITAIP "192.168.99.73")
 set(VITA_TITLEID "GTASA0000")
 
 add_custom_target(build_and_send
