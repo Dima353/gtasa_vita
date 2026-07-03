@@ -464,10 +464,12 @@ static float fake_fov;
 
 float CDraw__SetFOV(float fov) {
     *CDraw__ms_fFOV =
-            (((*CDraw__ms_fAspectRatio - 1.3333f) * 11.0f) / 0.88888f) + fov;
+            (((*CDraw__ms_fAspectRatio - 1.3333f) * 11.0f) / 0.44444f) + fov;
     fake_fov =
-            (((1.0f / *CDraw__ms_fAspectRatio - 1.3333f) * 11.0f) / 0.88888f) +
+            (((1.0f / *CDraw__ms_fAspectRatio - 1.3333f) * 11.0f) / 0.44444f) +
             fov;
+    if (fake_fov < 1.0f) fake_fov = 1.0f;
+    else if (fake_fov > 170.0f) fake_fov = 170.0f;
     return fake_fov;
 }
 
