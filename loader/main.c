@@ -1098,6 +1098,58 @@ void ProcessSwimmingResistance(void *task, void *ped) {
 extern void *__cxa_guard_acquire;
 extern void *__cxa_guard_release;
 
+//Taxi Lights
+static void (*CAutomobile__SetTaxiLight)(void *self, int on);
+uintptr_t caut_render_cont;
+
+__attribute__((naked)) void CAutomobile__Render_orig(void *self) {
+    asm volatile("push {r4, r5, r6, r7, lr}\n"
+                 "add r7, sp, #12\n"
+                 "stmdb sp!, {r8, r9, sl, fp}\n"
+                 "movw r12, :lower16:caut_render_cont\n"
+                 "movt r12, :upper16:caut_render_cont\n"
+                 "ldr r12, [r12]\n"
+                 "bx r12\n");
+}
+
+void CAutomobile__Render_hook(void *self) {
+    CAutomobile__Render_orig(self);
+
+    uint16_t model = *(uint16_t *) ((char *) self + 0x26);
+    if (model == 420 || model == 438) {
+        void *driver = *(void **) ((char *) self + 0x464);
+        uint8_t numPass = *(uint8_t *) ((char *) self + 0x488);
+        float health = *(float *) ((char *) self + 0x4CC);
+        CAutomobile__SetTaxiLight(
+                self, (driver && numPass == 0 && health > 0.0f) ? 1 : 0);
+    }
+}
+
+// Weapon penalty when CJ dies
+static void *CWorld__Players;
+static void *(*FindPlayerPed)(int id);
+static void (*CPed__ClearWeapons)(void *ped);
+uintptr_t DiedPenalty_BackTo;
+
+void DiedPenalty(void) {
+    int *money = (int *) ((char *) CWorld__Players + 0xB8);
+    if (*money > 0)
+        *money = (*money - 100) < 0 ? 0 : (*money - 100);
+    void *ped = FindPlayerPed(0);
+    if (ped)
+        CPed__ClearWeapons(ped);
+}
+
+__attribute__((naked)) void DiedPenalty_Inject(void) {
+    asm volatile("push {r0-r11}\n"
+                 "bl DiedPenalty\n"
+                 "movw r12, :lower16:DiedPenalty_BackTo\n"
+                 "movt r12, :upper16:DiedPenalty_BackTo\n"
+                 "ldr r12, [r12]\n"
+                 "pop {r0-r11}\n"
+                 "bx r12\n");
+}
+
 void patch_game(void) {
     *(uint8_t *) so_symbol(&gtasa_mod, "UseCloudSaves") = 0;
     *(uint8_t *) so_symbol(&gtasa_mod, "UseTouchSense") = 0;
@@ -1339,6 +1391,32 @@ void patch_game(void) {
     // Disable auto landing gear deployment/retraction
     hook_addr((uintptr_t) gtasa_mod.text_base + 0x0057629C + 0x1,
               (uintptr_t) gtasa_mod.text_base + 0x005762BC + 0x1);
+
+    //Taxi Lights
+    CAutomobile__SetTaxiLight = (void (*)(void *, int)) so_symbol(
+            &gtasa_mod, "_ZN11CAutomobile12SetTaxiLightEb");
+    caut_render_cont = gtasa_mod.text_base + 0x55BB24 + 0x1;
+    hook_thumb(so_symbol(&gtasa_mod, "_ZN11CAutomobile6RenderEv"),
+               (uintptr_t) CAutomobile__Render_hook);
+
+    // Night traffic-light + taxi-light glow on Medium/Low visual FX.
+    {
+        uint32_t nop32 = 0xbf00bf00;
+        kuKernelCpuUnrestrictedMemcpy(
+                (void *) (gtasa_mod.text_base + 0x362DB2), &nop32, sizeof(nop32));
+        kuKernelCpuUnrestrictedMemcpy(
+                (void *) (gtasa_mod.text_base + 0x55A4F8), &nop32, sizeof(nop32));
+    }
+
+    // Weapon penalty when CJ dies
+    CWorld__Players = (void *) so_symbol(&gtasa_mod, "_ZN6CWorld7PlayersE");
+    FindPlayerPed =
+            (void *(*) (int) ) so_symbol(&gtasa_mod, "_Z13FindPlayerPedi");
+    CPed__ClearWeapons =
+            (void (*)(void *)) so_symbol(&gtasa_mod, "_ZN4CPed12ClearWeaponsEv");
+    DiedPenalty_BackTo = gtasa_mod.text_base + 0x3088E0 + 0x1;
+    hook_addr(gtasa_mod.text_base + 0x3088BE + 0x1,
+              (uintptr_t) DiedPenalty_Inject);
 
     // Fix emergency vehicles
     CDraw__ms_fFOV = (void *) so_symbol(&gtasa_mod, "_ZN5CDraw7ms_fFOVE");
