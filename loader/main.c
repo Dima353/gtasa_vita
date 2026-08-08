@@ -1499,6 +1499,19 @@ void patch_game(void) {
     hook_addr(gtasa_mod.text_base + 0x3088BE + 0x1,
               (uintptr_t) DiedPenalty_Inject);
 
+    // Allowes gang wars to have a wanted level (like on PC)
+    {
+        uint32_t nop32 = 0xbf00bf00;
+        kuKernelCpuUnrestrictedMemcpy(
+                (void *) (gtasa_mod.text_base + 0x3F921E), &nop32, sizeof(nop32));
+        kuKernelCpuUnrestrictedMemcpy(
+                (void *) (gtasa_mod.text_base + 0x3F922C), &nop32, sizeof(nop32));
+        kuKernelCpuUnrestrictedMemcpy(
+                (void *) (gtasa_mod.text_base + 0x3F92F2), &nop32, sizeof(nop32));
+        kuKernelCpuUnrestrictedMemcpy(
+                (void *) (gtasa_mod.text_base + 0x3F9302), &nop32, sizeof(nop32));
+    }
+
     // AFK/Idle camera
     gIdleCam = (void *) so_symbol(&gtasa_mod, "gIdleCam");
     InitIdleCam = (void (*)(void *)) so_symbol(&gtasa_mod, "_ZN8CIdleCam4InitEv");
