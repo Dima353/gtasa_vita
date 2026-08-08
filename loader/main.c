@@ -1098,7 +1098,7 @@ void ProcessSwimmingResistance(void *task, void *ped) {
 extern void *__cxa_guard_acquire;
 extern void *__cxa_guard_release;
 
-//Taxi Lights
+// Taxi Lights
 static void (*CAutomobile__SetTaxiLight)(void *self, int on);
 uintptr_t caut_render_cont;
 
@@ -1148,6 +1148,87 @@ __attribute__((naked)) void DiedPenalty_Inject(void) {
                  "ldr r12, [r12]\n"
                  "pop {r0-r11}\n"
                  "bx r12\n");
+}
+
+// AFK/Idle camera
+static void *gIdleCam;
+static void (*InitIdleCam)(void *self);
+static void (*ProcessIdleCam)(void *self);
+static void (*ResetIdleCam)(void *self, int reset);
+static void (*SetIdleCamTarget)(void *self, void *ent);
+static void (*RunIdleCam)(void *self);
+static void (*CCam__Process)(void *self);
+static void (*CTouchInterface__DrawAll)(void *self, int noEffects);
+static int *idle_m_FrameCounter;
+static int *idle_m_snTime;
+static int *gbCineyCamProcessedOnFrame;
+static uint8_t *idle_bf_12c;
+static int idle_lastFrameProcessed;
+uintptr_t ProcessCamFollowPed_BackTo1, ProcessCamFollowPed_BackTo2,
+        ProcessCamFollowPed_BackTo3;
+
+static void ProcessIdleCam_CutPart(void *thisCam) {
+    if ((float) (*(int *) ((char *) gIdleCam + 0x94)) <=
+        *(float *) ((char *) gIdleCam + 0x28))
+        return;
+
+    *(void **) ((char *) gIdleCam + 0x98) = thisCam;
+    if (idle_lastFrameProcessed < *idle_m_FrameCounter - 1) {
+        *idle_bf_12c |= 1;
+        ResetIdleCam(gIdleCam, 0);
+        *(float *) ((char *) gIdleCam + 0x2c) = (float) *idle_m_snTime;
+        SetIdleCamTarget(gIdleCam, FindPlayerPed(-1));
+        *(uint8_t *) ((char *) gIdleCam + 0x78) = 1;
+    }
+    idle_lastFrameProcessed = *idle_m_FrameCounter;
+    RunIdleCam(gIdleCam);
+    *gbCineyCamProcessedOnFrame = idle_lastFrameProcessed;
+}
+
+uintptr_t ProcessCamFollowPed_IdleCam1_Patch(int flag, void *thisCam) {
+    if (flag) return ProcessCamFollowPed_BackTo1;
+    *(uint8_t *) ((char *) thisCam + 0xa) = 0;
+    ProcessIdleCam(gIdleCam);
+    ProcessIdleCam_CutPart(thisCam);
+    return ProcessCamFollowPed_BackTo2;
+}
+uintptr_t ProcessCamFollowPed_IdleCam2_Patch(void *thisCam) {
+    *(uint8_t *) ((char *) thisCam + 0xa) = 0;
+    ProcessIdleCam(gIdleCam);
+    ProcessIdleCam_CutPart(thisCam);
+    return ProcessCamFollowPed_BackTo3;
+}
+
+__attribute__((naked)) void ProcessCamFollowPed_IdleCam1(void) {
+    asm volatile("ldr r0, [sp, #0x4c]\n"
+                 "mov r1, r10\n"
+                 "push {r2, r3}\n"
+                 "bl ProcessCamFollowPed_IdleCam1_Patch\n"
+                 "pop {r2, r3}\n"
+                 "movs r1, #0\n"
+                 "bx r0\n");
+}
+__attribute__((naked)) void ProcessCamFollowPed_IdleCam2(void) {
+    asm volatile("mov r0, r10\n"
+                 "push {r1, r2, r3}\n"
+                 "bl ProcessCamFollowPed_IdleCam2_Patch\n"
+                 "pop {r1, r2, r3}\n"
+                 "vldr s0, [r8, #0x48]\n"
+                 "vldr s2, [r8, #0x4c]\n"
+                 "vmul.f32 s0, s0, s0\n"
+                 "bx r0\n");
+}
+
+void CamProcess_IdleCam_hook(void *self) {
+    if ((float) (*(int *) ((char *) gIdleCam + 0x94)) <=
+        *(float *) ((char *) gIdleCam + 0x28))
+        *idle_bf_12c &= ~1;
+    CCam__Process(self);
+}
+
+void DrawAllWidgets_hook(void *self, int noEffects) {
+    if (*gbCineyCamProcessedOnFrame != *idle_m_FrameCounter)
+        CTouchInterface__DrawAll(self, noEffects);
 }
 
 void patch_game(void) {
@@ -1392,7 +1473,7 @@ void patch_game(void) {
     hook_addr((uintptr_t) gtasa_mod.text_base + 0x0057629C + 0x1,
               (uintptr_t) gtasa_mod.text_base + 0x005762BC + 0x1);
 
-    //Taxi Lights
+    // Taxi Lights
     CAutomobile__SetTaxiLight = (void (*)(void *, int)) so_symbol(
             &gtasa_mod, "_ZN11CAutomobile12SetTaxiLightEb");
     caut_render_cont = gtasa_mod.text_base + 0x55BB24 + 0x1;
@@ -1417,6 +1498,49 @@ void patch_game(void) {
     DiedPenalty_BackTo = gtasa_mod.text_base + 0x3088E0 + 0x1;
     hook_addr(gtasa_mod.text_base + 0x3088BE + 0x1,
               (uintptr_t) DiedPenalty_Inject);
+
+    // AFK/Idle camera
+    gIdleCam = (void *) so_symbol(&gtasa_mod, "gIdleCam");
+    InitIdleCam = (void (*)(void *)) so_symbol(&gtasa_mod, "_ZN8CIdleCam4InitEv");
+    ProcessIdleCam =
+            (void (*)(void *)) so_symbol(&gtasa_mod, "_ZN8CIdleCam7ProcessEv");
+    ResetIdleCam =
+            (void (*)(void *, int)) so_symbol(&gtasa_mod, "_ZN8CIdleCam5ResetEb");
+    SetIdleCamTarget = (void (*)(void *, void *)) so_symbol(
+            &gtasa_mod, "_ZN8CIdleCam9SetTargetEP7CEntity");
+    RunIdleCam = (void (*)(void *)) so_symbol(&gtasa_mod, "_ZN8CIdleCam3RunEv");
+    CCam__Process = (void (*)(void *)) so_symbol(&gtasa_mod, "_ZN4CCam7ProcessEv");
+    CTouchInterface__DrawAll = (void (*)(void *, int)) so_symbol(
+            &gtasa_mod, "_ZN15CTouchInterface7DrawAllEb");
+    idle_m_FrameCounter =
+            (int *) so_symbol(&gtasa_mod, "_ZN6CTimer14m_FrameCounterE");
+    idle_m_snTime =
+            (int *) so_symbol(&gtasa_mod, "_ZN6CTimer22m_snTimeInMillisecondsE");
+    gbCineyCamProcessedOnFrame =
+            (int *) so_symbol(&gtasa_mod, "gbCineyCamProcessedOnFrame");
+    idle_bf_12c = (uint8_t *) (gtasa_mod.text_base + 0x9EFB04);
+
+    InitIdleCam(gIdleCam);
+    *(float *) ((char *) gIdleCam + 0x28) = 270000.0f;
+
+    ProcessCamFollowPed_BackTo1 = gtasa_mod.text_base + 0x3C4C52 + 0x1;
+    ProcessCamFollowPed_BackTo2 = gtasa_mod.text_base + 0x3C4B84 + 0x1;
+    ProcessCamFollowPed_BackTo3 = gtasa_mod.text_base + 0x3C4BBE + 0x1;
+    hook_addr(gtasa_mod.text_base + 0x3C4B7C + 0x1,
+              (uintptr_t) ProcessCamFollowPed_IdleCam1);
+    hook_addr(gtasa_mod.text_base + 0x3C4BB2 + 0x1,
+              (uintptr_t) ProcessCamFollowPed_IdleCam2);
+
+    uint32_t idle_nop32 = 0xbf00bf00;
+    kuKernelCpuUnrestrictedMemcpy((void *) (gtasa_mod.text_base + 0x3BF2DC),
+                                  &idle_nop32, sizeof(idle_nop32));
+
+    uintptr_t idle_camhook = (uintptr_t) CamProcess_IdleCam_hook;
+    kuKernelCpuUnrestrictedMemcpy((void *) (gtasa_mod.text_base + 0x6703F0),
+                                  &idle_camhook, sizeof(idle_camhook));
+    uintptr_t idle_widgethook = (uintptr_t) DrawAllWidgets_hook;
+    kuKernelCpuUnrestrictedMemcpy((void *) (gtasa_mod.text_base + 0x66E5E4),
+                                  &idle_widgethook, sizeof(idle_widgethook));
 
     // Fix emergency vehicles
     CDraw__ms_fFOV = (void *) so_symbol(&gtasa_mod, "_ZN5CDraw7ms_fFOVE");
