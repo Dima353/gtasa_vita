@@ -15,6 +15,15 @@ By doing so, it's basically as if we emulate a minimalist Android environment in
 
 ## Changelog
 
+### v2.6
+
+- Fix sniper scope and camera max zoom
+- Added a custom patches: based on [JPatch](https://github.com/AndroidModLoader/JPatch)
+  - Taxi Lights
+  - Weapon penalty when CJ dies
+  - AFK/Idle camera
+  - Allowes gang wars to have a wanted level (like on PC)
+
 ### v2.5
 
 - Added support for video playback by SkyForces.
